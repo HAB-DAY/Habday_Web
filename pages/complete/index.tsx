@@ -4,6 +4,7 @@ import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
+import priceFormatter from '../../util/priceFormatter';
 
 export default function Complete() {
   const [hostname, setHostname] = useState<string>('000');
@@ -35,7 +36,7 @@ export default function Complete() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {totalPrice}</Styled.ProgressAmount>
+        <Styled.ProgressAmount>￦ {priceFormatter(totalPrice)}</Styled.ProgressAmount>
         <Progress totalPrice={totalPrice} goalPrice={goalPrice} />
       </Styled.ProgressContainer>
     </Layout>

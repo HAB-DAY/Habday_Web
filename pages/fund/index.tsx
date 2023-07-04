@@ -4,6 +4,7 @@ import Layout from '../../components/common/Layout';
 import Progress from '../../components/common/Progress';
 import { selectBoxImg } from '../../assets';
 import Image from 'next/image';
+import priceFormatter from '../../util/priceFormatter';
 
 export default function Fund() {
   const [hostname, setHostname] = useState<string>('000');
@@ -26,7 +27,7 @@ export default function Fund() {
           id="amount"
           type="number"
           //max={`${goalPrice - totalPrice}`}
-          placeholder={`최대 ${goalPrice - totalPrice}원까지 가능해요`}
+          placeholder={`최대 ${priceFormatter(goalPrice - totalPrice)}원까지 가능해요`}
           onChange={(e) => setAmount(parseInt(e.currentTarget.value))}
         />
       </Styled.Form>
@@ -45,12 +46,6 @@ export default function Fund() {
           <option>KB국민 9393</option>
           <option>KB국민 9393</option>
         </Styled.Select>
-      </Styled.Form>
-      <Styled.Form>
-        <Styled.Label>할부개월</Styled.Label>
-        <Styled.SelectDisabled>
-          <option>일시불</option>
-        </Styled.SelectDisabled>
       </Styled.Form>
     </Layout>
   );
@@ -123,6 +118,7 @@ const Styled = {
     width: 100%;
     height: 3.9rem;
     margin-top: 1.15rem;
+    margin-bottom: 4.4rem;
     padding: 0.45rem 1.4rem;
     border-radius: 0.5rem;
     border: 0.1rem solid #8e8e8e;

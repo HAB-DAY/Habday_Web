@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import { PingArrowImg } from '../../assets';
+import priceFormatter from '../../util/priceFormatter';
 
 interface ProgressProps {
   totalPrice: number;
@@ -17,7 +18,7 @@ export default function Progress(props: ProgressProps) {
     <Styled.Root>
       {isPing && (
         <Styled.Ping location={((totalPrice - goalPrice) / goalPrice) * 100}>
-          <Styled.Box>{amount} 원</Styled.Box>
+          <Styled.Box>{amount && priceFormatter(amount)} 원</Styled.Box>
           <Image
             src={PingArrowImg}
             alt="툴팁화살표 이미지"
@@ -30,7 +31,7 @@ export default function Progress(props: ProgressProps) {
         </Styled.Ping>
       )}
       <Styled.Progressbar value={(totalPrice / goalPrice) * 100} max={100} />
-      <Styled.ProgressLabel>총 {goalPrice}원</Styled.ProgressLabel>
+      <Styled.ProgressLabel>총 {priceFormatter(goalPrice)}원</Styled.ProgressLabel>
     </Styled.Root>
   );
 }

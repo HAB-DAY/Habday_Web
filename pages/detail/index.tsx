@@ -4,6 +4,7 @@ import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
+import priceFormatter from '../../util/priceFormatter';
 
 type FundObjectType = {
   name: string;
@@ -41,7 +42,7 @@ export default function Detail() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {fund.totalPrice}</Styled.ProgressAmount>
+        <Styled.ProgressAmount>￦ {priceFormatter(fund.totalPrice)}</Styled.ProgressAmount>
         <Progress totalPrice={fund.totalPrice} goalPrice={fund.goalPrice} />
       </Styled.ProgressContainer>
     </Layout>
