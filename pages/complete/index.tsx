@@ -32,11 +32,6 @@ export default function Complete() {
             priority
           />
         </Styled.ImageContainer>
-        <Styled.PagingButtons>
-          {[AirpodImg].map((item, index) =>
-            index === pageIndex ? <Styled.PagingButtonSelected key={index} /> : <Styled.PagingButton key={index} />
-          )}
-        </Styled.PagingButtons>
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
@@ -80,25 +75,6 @@ const Styled = {
     width: 22.2rem;
     height: 22.2rem;
     border-radius: 1rem;
-  `,
-  PagingButtons: styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 1rem;
-    min-width: 4.2rem;
-  `,
-  PagingButtonSelected: styled.button`
-    background: black;
-    width: 0.741rem;
-    height: 0.741rem;
-    border-radius: 50%;
-  `,
-  PagingButton: styled.button`
-    background: #d9d9d9;
-    width: 0.741rem;
-    height: 0.741rem;
-    border-radius: 50%;
   `,
   ProgressContainer: styled.article`
     display: flex;
