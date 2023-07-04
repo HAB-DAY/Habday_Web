@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
+import CommonModal from '../../components/common/modal/CommonModal';
 
 export default function Card() {
   return (
@@ -29,6 +30,7 @@ export default function Card() {
         </Styled.InputContainer>
         <Styled.Message>* 본인 명의의 카드만 입력 가능합니다.</Styled.Message>
       </Styled.Form>
+      <CommonModal message={`카드 정보가 올바르지 않습니다.\n다시 입력해주세요.`} buttons={['확인']} />
     </Layout>
   );
 }
