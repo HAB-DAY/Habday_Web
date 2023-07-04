@@ -12,7 +12,7 @@ export default function Complete() {
   const [goalPrice, setGoalPrice] = useState<number>(700000);
 
   return (
-    <Layout buttons={['친구에게 알려주기', '내 펀팅 만들러가기']}>
+    <Layout buttons={['친구에게 알려주기', '내 펀딩 만들러가기']}>
       <Styled.Titles>
         <Styled.Title>펀딩참여 완료!</Styled.Title>
         <Styled.BoldTitle>Apple 에어팟 맥스</Styled.BoldTitle>
