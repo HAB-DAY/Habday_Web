@@ -1,36 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
-import CommonModal from '../../components/common/modal/CommonModal';
 
-export default function Card() {
+export default function Signup() {
   return (
-    <Layout buttons={['다음에 입력', '카드 추가하기']}>
-      <Styled.Title>결제정보를 입력해주세요</Styled.Title>
+    <Layout buttons={['가입하고 펀딩참여하기']}>
+      <Styled.Title>추가정보를 입력해주세요</Styled.Title>
       <Styled.Form>
         <Styled.InputContainer>
-          <Styled.Label>카드번호</Styled.Label>
-          <Styled.Input placeholder="0000 - 0000 - 0000 - 0000" />
-        </Styled.InputContainer>
-        <Styled.InputContainer>
-          <Styled.Label>카드 유효기간</Styled.Label>
-          <Styled.Input placeholder="YYYY - MM" />
+          <Styled.Label>닉네임</Styled.Label>
+          <Styled.Input placeholder="최대 12글자까지 입력가능합니다." />
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>생년월일</Styled.Label>
           <Styled.Input placeholder="6자리" />
         </Styled.InputContainer>
         <Styled.InputContainer>
-          <Styled.Label>비밀번호</Styled.Label>
-          <Styled.Input placeholder="앞 2자리" />
+          <Styled.Label>은행정보</Styled.Label>
+          <Styled.Select>
+            <option>국민</option>
+            <option>하나</option>
+            <option>신한</option>
+          </Styled.Select>
         </Styled.InputContainer>
         <Styled.InputContainer>
-          <Styled.Label>카드별칭</Styled.Label>
-          <Styled.Input placeholder="6자리" />
+          <Styled.Label>계좌번호</Styled.Label>
+          <Styled.Input placeholder="000-000-000-000" />
         </Styled.InputContainer>
-        <Styled.Message>* 본인 명의의 카드만 입력 가능합니다.</Styled.Message>
+        <Styled.InputContainer>
+          <Styled.Label>계좌별칭</Styled.Label>
+          <Styled.Input placeholder="최대 8글자까지 입력가능합니다." />
+        </Styled.InputContainer>
+        <Styled.Message>* 펀딩금액 입금을 위해 계좌정보를 정확히 입력해주세요</Styled.Message>
       </Styled.Form>
-      <CommonModal message={`카드 정보가 올바르지 않습니다.\n다시 입력해주세요.`} buttons={['확인']} />
     </Layout>
   );
 }
@@ -77,6 +79,13 @@ const Styled = {
     &::placeholder {
       color: #c4c4c4;
     }
+  `,
+  Select: styled.select`
+    width: 20.3rem;
+    height: 3rem;
+    border: 0;
+    font-size: 1.2rem;
+    line-height: 3rem;
   `,
   Message: styled.p`
     color: #c4c4c4;

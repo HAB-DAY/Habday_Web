@@ -4,6 +4,7 @@ import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
+import priceFormatter from '../../util/priceFormatter';
 
 type FundObjectType = {
   name: string;
@@ -18,8 +19,7 @@ export default function Detail() {
     goalPrice: 700000,
     totalPrice: 320000,
   });
-  const [itemImages, setItemImages] = useState<string[]>([AirpodImg, AirpodImg, AirpodImg]);
-  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [itemImage, setItemImage] = useState<string>(AirpodImg);
   return (
     <Layout buttons={['펀딩에 참여할래요']}>
       <Styled.Titles>
@@ -30,7 +30,7 @@ export default function Detail() {
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={itemImages[pageIndex]}
+            src={itemImage}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -39,15 +39,10 @@ export default function Detail() {
             priority
           />
         </Styled.ImageContainer>
-        <Styled.PagingButtons>
-          {itemImages.map((item, index) =>
-            index === pageIndex ? <Styled.PagingButtonSelected key={index} /> : <Styled.PagingButton key={index} />
-          )}
-        </Styled.PagingButtons>
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {fund.totalPrice}</Styled.ProgressAmount>
+        <Styled.ProgressAmount>￦ {priceFormatter(fund.totalPrice)}</Styled.ProgressAmount>
         <Progress totalPrice={fund.totalPrice} goalPrice={fund.goalPrice} />
       </Styled.ProgressContainer>
     </Layout>
@@ -87,25 +82,6 @@ const Styled = {
     width: 22.2rem;
     height: 22.2rem;
     border-radius: 1rem;
-  `,
-  PagingButtons: styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 1rem;
-    min-width: 4.2rem;
-  `,
-  PagingButtonSelected: styled.button`
-    background: black;
-    width: 0.741rem;
-    height: 0.741rem;
-    border-radius: 50%;
-  `,
-  PagingButton: styled.button`
-    background: #d9d9d9;
-    width: 0.741rem;
-    height: 0.741rem;
-    border-radius: 50%;
   `,
   ProgressContainer: styled.article`
     display: flex;

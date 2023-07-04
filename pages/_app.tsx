@@ -8,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <MobileWrapper>
+        <div id="modal-root" />
         <Component {...pageProps} />
       </MobileWrapper>
     </RecoilRoot>
