@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
+import CommonModal from '../../components/common/modal/CommonModal';
 
 export default function List() {
   return (
@@ -39,6 +40,7 @@ export default function List() {
           <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
         </Styled.TextContainer>
       </Styled.ItemContainer>
+      <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} />
     </Layout>
   );
 }
