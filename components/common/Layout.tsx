@@ -27,8 +27,10 @@ const Styled = {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
     min-width: 37.5rem;
-    min-height: 81.2rem;
+    height: 100vh;
+
     background: white;
   `,
   Main: styled.main`

@@ -12,8 +12,5 @@ const Styled = {
     justify-content: center;
 
     margin: 0 auto;
-
-    min-width: 37.5rem;
-    min-height: 100%;
   `,
 };
