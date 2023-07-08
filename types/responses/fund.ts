@@ -12,7 +12,7 @@ export interface DetailOutput {
   startDate: string;
   finishDate: string;
   percentage: number;
-  status: 'PROGRESS' | 'FAILED' | 'SUCCESS';
+  status: StatusType;
   hostName: string;
   fundingParticipantList: ParticipantType[];
 }
@@ -23,3 +23,5 @@ export type ParticipantType = {
   amount: number;
   message: string;
 };
+
+export type StatusType = 'PROGRESS' | 'FAILED' | 'SUCCESS';

@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useFundDetail } from '../../hooks/useFundDetail';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { fundtingState } from '../../states/atom';
+import { useRecoilValue } from 'recoil';
+import { fundingState } from '../../states/atom';
+import { STATUS } from '../../util/const';
 
 interface ParamProps {
   params: ItemProps;
@@ -17,7 +18,7 @@ interface ItemProps {
 export default function Lading({ itemId }: ItemProps) {
   const router = useRouter();
   const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
-  const funding = useRecoilValue(fundtingState);
+  const funding = useRecoilValue(fundingState);
 
   useEffect(() => {
     if (funding?.status === 'PROGRESS') {
@@ -29,7 +30,7 @@ export default function Lading({ itemId }: ItemProps) {
     return <div>loading...</div>;
   }
 
-  if (isError) {
+  if (isError || funding.status === STATUS.FAILED) {
     return <div>error! 존재하지 않는 펀딩입니다</div>;
   }
 

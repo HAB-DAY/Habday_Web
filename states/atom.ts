@@ -1,8 +1,9 @@
 import { atom } from 'recoil';
 import { DetailOutput } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
+import { STATUS } from '../util/const';
 
-export const fundtingState = atom<DetailOutput>({
+export const fundingState = atom<DetailOutput>({
   key: 'fundingState',
   default: {
     fundingItemImg: `${AirpodImg}`,

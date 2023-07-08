@@ -1,0 +1,5 @@
+export const STATUS = {
+  PROGRESS: 'PROGRESS',
+  FAILED: 'FAILED',
+  SUCCESS: 'SUCCESS',
+};
