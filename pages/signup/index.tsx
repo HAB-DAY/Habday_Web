@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
+import { useRouter } from 'next/router';
 
 export default function Signup() {
+  const router = useRouter();
   return (
-    <Layout buttons={['가입하고 펀딩참여하기']}>
+    <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={() => router.push('/detail')}>
       <Styled.Title>추가정보를 입력해주세요</Styled.Title>
       <Styled.Form>
-        <Styled.InputContainer>
-          <Styled.Label>닉네임</Styled.Label>
-          <Styled.Input placeholder="최대 12글자까지 입력가능합니다." />
-        </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>생년월일</Styled.Label>
           <Styled.Input placeholder="6자리" />
@@ -26,10 +24,6 @@ export default function Signup() {
         <Styled.InputContainer>
           <Styled.Label>계좌번호</Styled.Label>
           <Styled.Input placeholder="000-000-000-000" />
-        </Styled.InputContainer>
-        <Styled.InputContainer>
-          <Styled.Label>계좌별칭</Styled.Label>
-          <Styled.Input placeholder="최대 8글자까지 입력가능합니다." />
         </Styled.InputContainer>
         <Styled.Message>* 펀딩금액 입금을 위해 계좌정보를 정확히 입력해주세요</Styled.Message>
       </Styled.Form>

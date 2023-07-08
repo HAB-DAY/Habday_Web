@@ -5,6 +5,9 @@ import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { fundingState } from '../../states/atom';
 
 type FundObjectType = {
   name: string;
@@ -13,24 +16,20 @@ type FundObjectType = {
 };
 
 export default function Detail() {
-  const [funderName, setFunderName] = useState<string>('000');
-  const [fund, setFund] = useState<FundObjectType>({
-    name: 'Apple 에어팟 맥스',
-    goalPrice: 700000,
-    totalPrice: 320000,
-  });
-  const [itemImage, setItemImage] = useState<string>(AirpodImg);
+  const router = useRouter();
+  const { hostName, fundingName, fundingItemImg, totalPrice, goalPrice } = useRecoilValue(fundingState);
+
   return (
-    <Layout buttons={['펀딩에 참여할래요']}>
+    <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>
       <Styled.Titles>
-        <Styled.Title>{funderName}님은</Styled.Title>
-        <Styled.BoldTitle>{fund.name}</Styled.BoldTitle>
+        <Styled.Title>{hostName}님은</Styled.Title>
+        <Styled.BoldTitle>{fundingName}</Styled.BoldTitle>
         <Styled.Title>를(을) 갖고싶어해요</Styled.Title>
       </Styled.Titles>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={itemImage}
+            src={AirpodImg}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -42,8 +41,8 @@ export default function Detail() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {priceFormatter(fund.totalPrice)}</Styled.ProgressAmount>
-        <Progress totalPrice={fund.totalPrice} goalPrice={fund.goalPrice} />
+        <Styled.ProgressAmount>￦ {priceFormatter(totalPrice)}</Styled.ProgressAmount>
+        <Progress totalPrice={totalPrice} goalPrice={goalPrice} />
       </Styled.ProgressContainer>
     </Layout>
   );
