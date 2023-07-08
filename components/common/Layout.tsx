@@ -5,16 +5,17 @@ interface LayoutProps {
   children: React.ReactNode;
   buttons?: string[];
   link?: string;
+  onClickButton: () => void;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { children, buttons, link } = props;
+  const { children, buttons, link, onClickButton } = props;
   return (
     <Styled.Root>
       <Styled.Main>{children}</Styled.Main>
       <Styled.Footer isButtons={buttons?.length === 2}>
         {buttons && buttons?.length == 2 && <Styled.ButtonLeft>{buttons[1]}</Styled.ButtonLeft>}
-        {buttons && buttons?.length >= 1 && <Styled.Button>{buttons[0]}</Styled.Button>}
+        {buttons && buttons?.length >= 1 && <Styled.Button onClick={onClickButton}>{buttons[0]}</Styled.Button>}
         {link && <Styled.Link>{link}</Styled.Link>}
       </Styled.Footer>
     </Styled.Root>
@@ -29,7 +30,6 @@ const Styled = {
     align-items: center;
 
     min-width: 37.5rem;
-    height: 100vh;
 
     background: white;
   `,
