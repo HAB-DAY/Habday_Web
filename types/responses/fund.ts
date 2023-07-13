@@ -33,12 +33,3 @@ export interface ParticipateInput {
   // buyer_tel: string;
   // buyer_email: string;
 }
-
-export interface PaymentListOutput {
-  payments: PaymentType[];
-}
-
-export type PaymentType = {
-  paymentId: number;
-  paymentName: string;
-};

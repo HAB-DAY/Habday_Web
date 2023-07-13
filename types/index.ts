@@ -1,4 +1,5 @@
-import { DetailOutput, PaymentListOutput } from './responses/fund';
+import { DetailOutput } from './responses/fund';
+import { PaymentListOutput } from './responses/pay';
 
 // types
 export interface DetailResponse {
