@@ -4,8 +4,8 @@ import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
 import { PaymentType } from '../types/responses/pay';
 
-export const fundId = atom<number>({
-  key: 'fundId',
+export const fundingIdState = atom<number>({
+  key: 'fundingIdState',
   default: 0,
 });
 

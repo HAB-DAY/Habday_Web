@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useFundDetail } from '../../hooks/useFundDetail';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
-import { fundingState } from '../../states/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { fundingIdState, fundingState } from '../../states/atom';
 import { STATUS } from '../../util/const';
 
 interface ParamProps {
@@ -19,8 +19,10 @@ export default function Lading({ itemId }: ItemProps) {
   const router = useRouter();
   const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
   const { hostName, status } = useRecoilValue(fundingState);
+  const setFundingId = useSetRecoilState(fundingIdState);
 
   useEffect(() => {
+    setFundingId(parseInt(itemId));
     if (status === 'PROGRESS') {
       //router.push('/detail');
     }

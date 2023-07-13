@@ -7,7 +7,7 @@ import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { fundingState } from '../../states/atom';
+import { fundingIdState, fundingState } from '../../states/atom';
 import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
 import { usePaymentList } from '../../hooks/usePayment';
 
@@ -15,8 +15,9 @@ export default function Fund() {
   const router = useRouter();
 
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
-  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(2, () => router.push('/complete'));
+  const fundingId = useRecoilValue(fundingIdState);
 
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(2, () => router.push('/complete'));
   const { isError, isLoading, paymentList } = usePaymentList(1);
   //const mutateParticipant = useParticipateMutation(1, () => router.push('/complete'));
 
