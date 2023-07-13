@@ -50,8 +50,10 @@ export default function Fund() {
           <Styled.AddCardButton>카드 추가</Styled.AddCardButton>
         </Styled.Label>
         <Styled.Select>
-          {paymentList.map((pay) => (
-            <option key={pay.paymentId}>{pay.paymentName}</option>
+          {paymentList.map(({ paymentId, paymentName }) => (
+            <option key={paymentId} onClick={() => setParticipantForm({ paymentId: paymentId })}>
+              {paymentName}
+            </option>
           ))}
         </Styled.Select>
       </Styled.Form>

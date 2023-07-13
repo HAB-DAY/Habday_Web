@@ -40,17 +40,20 @@ export const participantState = atom<ParticipateInput>({
     message: '',
     fundingDate: 'YYYY-MM-DD',
     amount: 0,
-    paymentId: -99,
+    paymentId: 0,
     buyer_name: '',
     buyer_tel: '',
     buyer_email: '',
   },
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const participantSelector = selector({
   key: 'participantSelector',
-  get: ({ get }) => ({ ...get(participantState), fundingItemId: get(fundingIdState) }),
+  get: ({ get }) => ({
+    ...get(participantState),
+    fundingDate: new Date().toISOString().split('T')[0],
+    fundingItemId: get(fundingIdState),
+  }),
   set: ({ set }, newValue) => {
     set(participantState, newValue);
   },
