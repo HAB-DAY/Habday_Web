@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { participantState } from '../states/atom';
+import { participantSelector, participantState } from '../states/atom';
 import { useEffect } from 'react';
 import { ParticipateInput } from '../types/responses/fund';
 import { postParticipate } from '../api/fund';
@@ -23,7 +23,7 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
 };
 
 export const useParticipantForm = (memberId: number, onSuccessMutation: () => void) => {
-  const [participant, setParticipant] = useRecoilState(participantState);
+  const [participant, setParticipant] = useRecoilState(participantSelector);
   const participantMutation = useParticipateMutation(memberId, onSuccessMutation);
 
   const setParticipantForm = (input: Partial<ParticipateInput>) => {
@@ -31,6 +31,7 @@ export const useParticipantForm = (memberId: number, onSuccessMutation: () => vo
   };
 
   const submitPariticipant = () => {
+    setParticipant({ ...participant, fundingDate: new Date().toISOString().split('T')[0] }); // 날짜는 현재 시간으로
     participantMutation.mutate();
   };
 

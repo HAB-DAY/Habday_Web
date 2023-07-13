@@ -1,16 +1,20 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { DetailOutput, ParticipateInput } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
 import { PaymentType } from '../types/responses/pay';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export const fundingIdState = atom<number>({
-  key: 'fundingIdState',
+  key: 'fundingId',
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const fundingState = atom<DetailOutput>({
-  key: 'fundingState',
+  key: 'funding',
   default: {
     fundingItemImg: `${AirpodImg}`,
     fundingName: '',
@@ -25,12 +29,13 @@ export const fundingState = atom<DetailOutput>({
     hostName: '',
     fundingParticipantList: [],
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const participantState = atom<ParticipateInput>({
-  key: 'participantState',
+  key: 'participant',
   default: {
-    fundingItemId: -99,
+    fundingItemId: 0,
     name: '',
     message: '',
     fundingDate: 'YYYY-MM-DD',
@@ -40,9 +45,19 @@ export const participantState = atom<ParticipateInput>({
     buyer_tel: '',
     buyer_email: '',
   },
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const participantSelector = selector({
+  key: 'participantSelector',
+  get: ({ get }) => ({ ...get(participantState), fundingItemId: get(fundingIdState) }),
+  set: ({ set }, newValue) => {
+    set(participantState, newValue);
+  },
 });
 
 export const paymentListState = atom<PaymentType[]>({
   key: 'paymentListState',
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });

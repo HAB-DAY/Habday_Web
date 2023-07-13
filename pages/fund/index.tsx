@@ -17,7 +17,7 @@ export default function Fund() {
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
   const fundingId = useRecoilValue(fundingIdState);
 
-  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(2, () => router.push('/complete'));
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(1, () => router.push('/complete'));
   const { isError, isLoading, paymentList } = usePaymentList(1);
   //const mutateParticipant = useParticipateMutation(1, () => router.push('/complete'));
 
