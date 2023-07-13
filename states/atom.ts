@@ -4,6 +4,11 @@ import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
 import { PaymentType } from '../types/responses/pay';
 
+export const fundId = atom<number>({
+  key: 'fundId',
+  default: 0,
+});
+
 export const fundingState = atom<DetailOutput>({
   key: 'fundingState',
   default: {
@@ -31,6 +36,9 @@ export const participantState = atom<ParticipateInput>({
     fundingDate: 'YYYY-MM-DD',
     amount: 0,
     paymentId: -99,
+    buyer_name: '',
+    buyer_tel: '',
+    buyer_email: '',
   },
 });
 

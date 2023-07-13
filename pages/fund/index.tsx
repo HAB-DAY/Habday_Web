@@ -8,19 +8,20 @@ import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { fundingState } from '../../states/atom';
-import { useParticipantForm } from '../../hooks/useParticipantForm';
+import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
 import { usePaymentList } from '../../hooks/usePayment';
 
 export default function Fund() {
   const router = useRouter();
 
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
-  const { participant, setParticipantForm } = useParticipantForm();
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(2, () => router.push('/complete'));
 
   const { isError, isLoading, paymentList } = usePaymentList(1);
+  //const mutateParticipant = useParticipateMutation(1, () => router.push('/complete'));
 
   return (
-    <Layout buttons={['다음']} onClickButton={() => router.push('/complete')}>
+    <Layout buttons={['다음']} onClickButton={submitPariticipant}>
       <Styled.Title>{hostName} 님에게</Styled.Title>
       <Styled.Form>
         <Styled.Label>보내는 분 성함</Styled.Label>
