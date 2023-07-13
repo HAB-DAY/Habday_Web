@@ -2,7 +2,7 @@ import { atom, selector } from 'recoil';
 import { DetailOutput, ParticipateInput } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
-import { PaymentType } from '../types/responses/pay';
+import { NewPayInput, PaymentType } from '../types/responses/pay';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
@@ -63,4 +63,15 @@ export const paymentListState = atom<PaymentType[]>({
   key: 'paymentListState',
   default: [],
   effects_UNSTABLE: [persistAtom],
+});
+
+export const newPayState = atom<NewPayInput>({
+  key: 'newPay',
+  default: {
+    payment_name: '',
+    card_number: '',
+    expiry: '',
+    birth: '',
+    pwd_2digit: '',
+  },
 });

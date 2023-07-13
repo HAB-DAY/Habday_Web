@@ -6,15 +6,18 @@ interface LayoutProps {
   buttons?: string[];
   link?: string;
   onClickButton?: () => void;
+  onClickLeftButton?: () => void;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { children, buttons, link, onClickButton } = props;
+  const { children, buttons, link, onClickButton, onClickLeftButton } = props;
   return (
     <Styled.Root>
       <Styled.Main>{children}</Styled.Main>
       <Styled.Footer isButtons={buttons?.length === 2}>
-        {buttons && buttons?.length == 2 && <Styled.ButtonLeft>{buttons[1]}</Styled.ButtonLeft>}
+        {buttons && buttons?.length == 2 && (
+          <Styled.ButtonLeft onClick={onClickLeftButton}>{buttons[1]}</Styled.ButtonLeft>
+        )}
         {buttons && buttons?.length >= 1 && <Styled.Button onClick={onClickButton}>{buttons[0]}</Styled.Button>}
         {link && <Styled.Link>{link}</Styled.Link>}
       </Styled.Footer>

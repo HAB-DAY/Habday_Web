@@ -19,7 +19,6 @@ export default function Fund() {
 
   const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(1, () => router.push('/complete'));
   const { isError, isLoading, paymentList } = usePaymentList(1);
-  //const mutateParticipant = useParticipateMutation(1, () => router.push('/complete'));
 
   return (
     <Layout buttons={['다음']} onClickButton={submitPariticipant}>
