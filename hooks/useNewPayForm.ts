@@ -8,28 +8,34 @@ const QUERY_KEY = {
   newPay: 'newPay',
 };
 
-export const useNewPayMutation = (memberId: number, onSuccessMutation: () => void) => {
-  const newPay = useRecoilValue(newPayState);
-  const queryClient = useQueryClient();
+// export const useNewPayMutation = (memberId: number, onSuccessMutation: () => void) => {
+//   const queryClient = useQueryClient();
 
-  return useMutation(() => postNewPay(memberId, newPay), {
-    onSuccess(data) {
-      console.log(data);
-      queryClient.invalidateQueries([QUERY_KEY.newPay, memberId.toString()]);
-      //onSuccessMutation();
-    },
-  });
-};
+//   return useMutation(postNewPay, {
+//     onSuccess(data) {
+//       console.log(data);
+//       queryClient.invalidateQueries([QUERY_KEY.newPay, memberId.toString()]);
+//       //onSuccessMutation();
+//     },
+//   });
+// };
 
-export const useNewPayForm = (memberId: number, onSuccessMutation: () => void) => {
+export const useNewPayForm = (memberId: number, onSuccessMutation: () => void, onErrorMutation: () => void) => {
   const [newPay, setNewPay] = useRecoilState(newPayState);
+  //const newPayMutation = useNewPayMutation(memberId, onSuccessMutation);
+
+  const newPayMutation = useMutation({
+    mutationFn: postNewPay,
+    onSuccess: onSuccessMutation,
+    onError: onErrorMutation,
+  });
 
   const setNewPayForm = (input: Partial<NewPayInput>) => {
     setNewPay({ ...newPay, ...input });
   };
 
   const submitNewPay = () => {
-    //participantMutation.mutate();
+    newPayMutation.mutate(newPay);
   };
 
   return { newPay, setNewPayForm, submitNewPay };

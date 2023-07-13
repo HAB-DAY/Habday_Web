@@ -46,7 +46,7 @@ export default function Fund() {
       <Styled.Form>
         <Styled.Label>
           카드 결제
-          <Styled.AddCardButton>카드 추가</Styled.AddCardButton>
+          <Styled.AddCardButton onClick={() => router.push('/card')}>카드 추가</Styled.AddCardButton>
         </Styled.Label>
         <Styled.Select>
           {paymentList.map(({ paymentId, paymentName }) => (
@@ -68,7 +68,7 @@ const Styled = {
     font-weight: 500;
     letter-spacing: -0.03rem;
   `,
-  Form: styled.form`
+  Form: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

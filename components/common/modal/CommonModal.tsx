@@ -2,9 +2,13 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ModalPortal from './ModalPortal';
 
+type ButtonObjectType = {
+  text: string;
+  onClickButton: () => void;
+};
 export interface CommonModalProps {
   message: string;
-  buttons: string[];
+  buttons: ButtonObjectType[];
 }
 
 export default function CommonModal(props: CommonModalProps) {
@@ -34,8 +38,10 @@ export default function CommonModal(props: CommonModalProps) {
         <Styled.ModalContainer>
           <Styled.Message>{message}</Styled.Message>
           <Styled.Buttons buttonCount={buttonCount}>
-            {buttons.map((button, index) => (
-              <Styled.Button key={index}>{button}</Styled.Button>
+            {buttons.map(({ text, onClickButton }, index) => (
+              <Styled.Button key={index} onClick={onClickButton}>
+                {text}
+              </Styled.Button>
             ))}
           </Styled.Buttons>
         </Styled.ModalContainer>
@@ -85,7 +91,8 @@ const Styled = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+
+    min-width: 37.5rem;
     height: 100%;
     z-index: 9;
     background: rgba(3, 11, 13, 0.39);

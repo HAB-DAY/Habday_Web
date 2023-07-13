@@ -9,7 +9,11 @@ export default function Card() {
   const router = useRouter();
   const [isModal, setIsModal] = useState<boolean>(false);
 
-  const { newPay, setNewPayForm, submitNewPay } = useNewPayForm(1, () => router.push('/fund'));
+  const { newPay, setNewPayForm, submitNewPay } = useNewPayForm(
+    1,
+    () => router.push('/fund'),
+    () => setIsModal(true)
+  );
 
   return (
     <Layout
@@ -44,7 +48,12 @@ export default function Card() {
         </Styled.InputContainer>
         <Styled.Message>* 본인 명의의 카드만 입력 가능합니다.</Styled.Message>
       </Styled.Form>
-      {isModal && <CommonModal message={`카드 정보가 올바르지 않습니다.\n다시 입력해주세요.`} buttons={['확인']} />}
+      {isModal && (
+        <CommonModal
+          message={`카드 정보가 올바르지 않습니다.\n다시 입력해주세요.`}
+          buttons={[{ text: '확인', onClickButton: () => setIsModal(false) }]}
+        />
+      )}
     </Layout>
   );
 }
