@@ -5,7 +5,7 @@ interface LayoutProps {
   children: React.ReactNode;
   buttons?: string[];
   link?: string;
-  onClickButton: () => void;
+  onClickButton?: () => void;
 }
 
 export default function Layout(props: LayoutProps) {

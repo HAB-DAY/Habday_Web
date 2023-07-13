@@ -5,36 +5,39 @@ import Progress from '../../components/common/Progress';
 import { selectBoxImg } from '../../assets';
 import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { fundingState } from '../../states/atom';
+import { useParticipantForm } from '../../hooks/useParticipantForm';
 
 export default function Fund() {
-  const [hostname, setHostname] = useState<string>('000');
-  const [buyername, setBuyername] = useState<string>('');
-  const [goalPrice, setGoalPrice] = useState<number>(700000);
-  const [totalPrice, setTotalPrice] = useState<number>(320000);
-  const [amount, setAmount] = useState<number>(goalPrice - totalPrice || 0);
-  const [message, setMessage] = useState<string>('');
+  const router = useRouter();
+
+  const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
+  const { participant, setParticipantForm } = useParticipantForm();
+
   return (
-    <Layout buttons={['다음']}>
-      <Styled.Title>000 님에게</Styled.Title>
+    <Layout buttons={['다음']} onClickButton={() => router.push('/complete')}>
+      <Styled.Title>{hostName} 님에게</Styled.Title>
       <Styled.Form>
         <Styled.Label>보내는 분 성함</Styled.Label>
-        <Styled.Input id="buyer" type="text" onChange={(e) => setBuyername(e.currentTarget.value)} />
+        <Styled.Input id="buyer" type="text" onChange={(e) => setParticipantForm({ name: e.target.value })} />
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>펀딩 금액</Styled.Label>
-        <Progress goalPrice={goalPrice} totalPrice={totalPrice} isPing amount={amount} />
+        <Progress goalPrice={goalPrice} totalPrice={totalPrice} isPing amount={participant.amount} />
         <Styled.Input
           id="amount"
           type="number"
-          //max={`${goalPrice - totalPrice}`}
+          max={`${goalPrice - totalPrice}`}
           placeholder={`최대 ${priceFormatter(goalPrice - totalPrice)}원까지 가능해요`}
-          onChange={(e) => setAmount(parseInt(e.currentTarget.value))}
+          onChange={(e) => setParticipantForm({ amount: parseInt(e.target.value) })}
         />
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>응원 메시지</Styled.Label>
-        <Styled.Textarea />
-        <Styled.Maxline>{message.length || 0}/60</Styled.Maxline>
+        <Styled.Textarea onChange={(e) => setParticipantForm({ message: e.target.value })} />
+        <Styled.Maxline>{participant.message.length || 0}/60</Styled.Maxline>
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>

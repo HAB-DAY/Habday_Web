@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { DetailOutput } from '../types/responses/fund';
+import { DetailOutput, ParticipateInput } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
 
@@ -18,5 +18,17 @@ export const fundingState = atom<DetailOutput>({
     status: 'PROGRESS',
     hostName: '',
     fundingParticipantList: [],
+  },
+});
+
+export const participantState = atom<ParticipateInput>({
+  key: 'participantState',
+  default: {
+    fundingItemId: -99,
+    name: '',
+    message: '',
+    fundingDate: 'YYYY-MM-DD',
+    amount: 0,
+    paymentId: -99,
   },
 });

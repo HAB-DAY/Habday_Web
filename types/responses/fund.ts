@@ -25,3 +25,15 @@ export type ParticipantType = {
 };
 
 export type StatusType = 'PROGRESS' | 'FAILED' | 'SUCCESS';
+
+export interface ParticipateInput {
+  fundingItemId: number;
+  name: string;
+  message: string;
+  fundingDate: string;
+  amount: number;
+  paymentId: number;
+  // buyer_name: string;
+  // buyer_tel: string;
+  // buyer_email: string;
+}
