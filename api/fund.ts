@@ -1,9 +1,9 @@
 import { client } from '.';
-import { FundDetailResponse } from '../types/responses/fund';
+import { DetailResponse } from '../types';
 
 export const fetchFundDetail = async (itemId: number) => {
   const {
     data: { data },
-  } = await client.get<FundDetailResponse>(`/funding/showFundingContent?itemId=${itemId}`);
+  } = await client.get<DetailResponse>(`/funding/showFundingContent?itemId=${itemId}`);
   return data;
 };

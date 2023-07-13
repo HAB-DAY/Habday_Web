@@ -9,12 +9,15 @@ import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { fundingState } from '../../states/atom';
 import { useParticipantForm } from '../../hooks/useParticipantForm';
+import { usePaymentList } from '../../hooks/usePayment';
 
 export default function Fund() {
   const router = useRouter();
 
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
   const { participant, setParticipantForm } = useParticipantForm();
+
+  const { isError, isLoading, paymentList } = usePaymentList(1);
 
   return (
     <Layout buttons={['다음']} onClickButton={() => router.push('/complete')}>
@@ -45,9 +48,9 @@ export default function Fund() {
           <Styled.AddCardButton>카드 추가</Styled.AddCardButton>
         </Styled.Label>
         <Styled.Select>
-          <option>KB국민 9393</option>
-          <option>KB국민 9393</option>
-          <option>KB국민 9393</option>
+          {paymentList.map((pay) => (
+            <option key={pay.paymentId}>{pay.paymentName}</option>
+          ))}
         </Styled.Select>
       </Styled.Form>
     </Layout>

@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { DetailOutput, ParticipateInput } from '../types/responses/fund';
+import { DetailOutput, ParticipateInput, PaymentListOutput, PaymentType } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
 import { STATUS } from '../util/const';
 
@@ -31,4 +31,9 @@ export const participantState = atom<ParticipateInput>({
     amount: 0,
     paymentId: -99,
   },
+});
+
+export const paymentListState = atom<PaymentType[]>({
+  key: 'paymentListState',
+  default: [],
 });
