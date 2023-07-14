@@ -58,7 +58,7 @@ const Styled = {
     text-align: center;
     color: white;
     font-size: 1.3rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.052rem;
     cursor: pointer;
   `,
@@ -71,7 +71,7 @@ const Styled = {
     text-align: center;
     color: black;
     font-size: 1.3rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.052rem;
     cursor: pointer;
   `,

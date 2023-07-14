@@ -5,20 +5,19 @@ import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
+import { useRecoilValue } from 'recoil';
+import { fundingState } from '../../states/atom';
 
 export default function Complete() {
-  const [hostname, setHostname] = useState<string>('000');
-  const [pageIndex, setPageIndex] = useState<number>(0);
-  const [totalPrice, setTotalPrice] = useState<number>(420000);
-  const [goalPrice, setGoalPrice] = useState<number>(700000);
+  const { hostName, goalPrice, totalPrice, fundingName, fundingItemImg } = useRecoilValue(fundingState);
 
   return (
     <Layout buttons={['친구에게 알려주기', '내 펀딩 만들러가기']}>
       <Styled.Titles>
         <Styled.Title>펀딩참여 완료!</Styled.Title>
-        <Styled.BoldTitle>Apple 에어팟 맥스</Styled.BoldTitle>
+        <Styled.BoldTitle>{fundingName}</Styled.BoldTitle>
         <Styled.Title>
-          {totalPrice === goalPrice ? `${hostname}님께 전달될 예정이에요` : '까지 얼마남지 않았어요'}
+          {totalPrice === goalPrice ? `${hostName}님께 전달될 예정이에요` : '까지 얼마남지 않았어요'}
         </Styled.Title>
       </Styled.Titles>
       <Styled.Images>
