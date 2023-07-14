@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
 import { DetailOutput, ParticipateInput } from '../types/responses/fund';
 import { AirpodImg } from '../assets';
-import { STATUS } from '../util/const';
+import { STATUS } from '../util/constant';
 import { NewPayInput, PaymentType } from '../types/responses/pay';
 import { recoilPersist } from 'recoil-persist';
 

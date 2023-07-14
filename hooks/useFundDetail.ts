@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { fetchFundDetail } from '../api/fund';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { fundingState } from '../states/atom';
 import { useEffect } from 'react';
 

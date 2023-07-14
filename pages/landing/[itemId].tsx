@@ -5,7 +5,7 @@ import { useFundDetail } from '../../hooks/useFundDetail';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fundingIdState, fundingState } from '../../states/atom';
-import { STATUS } from '../../util/const';
+import { STATUS } from '../../util/constant';
 
 interface ParamProps {
   params: ItemProps;
@@ -18,13 +18,17 @@ interface ItemProps {
 export default function Lading({ itemId }: ItemProps) {
   const router = useRouter();
   const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
-  const { hostName, status } = useRecoilValue(fundingState);
   const setFundingId = useSetRecoilState(fundingIdState);
 
   useEffect(() => {
     setFundingId(parseInt(itemId));
-    if (status === 'PROGRESS') {
-      //router.push('/detail');
+    switch (data?.status) {
+      case STATUS.PROGRESS:
+        //router.push('/detail');
+        break;
+      case STATUS.FAILED || STATUS.SUCCESS:
+        router.push('/end');
+        break;
     }
   }, [data]);
 
@@ -32,14 +36,14 @@ export default function Lading({ itemId }: ItemProps) {
     return <div>loading...</div>;
   }
 
-  if (isError || status === STATUS.FAILED) {
+  if (isError || data?.status === STATUS.FAILED) {
     return <div>error! 존재하지 않는 펀딩입니다</div>;
   }
 
   return (
     <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={() => router.push('/signup')}>
       <Styled.Emoji>🎁</Styled.Emoji>
-      <Styled.Message>{hostName}님의 펀딩에 참여해보세요!</Styled.Message>
+      <Styled.Message>{data?.hostName}님의 펀딩에 참여해보세요!</Styled.Message>
     </Layout>
   );
 }
