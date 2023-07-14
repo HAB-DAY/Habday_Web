@@ -5,7 +5,6 @@ import { useFundDetail } from '../../hooks/useFundDetail';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fundingIdState, fundingState } from '../../states/atom';
-import { STATUS } from '../../util/constant';
 
 interface ParamProps {
   params: ItemProps;
@@ -14,6 +13,12 @@ interface ParamProps {
 interface ItemProps {
   itemId: string;
 }
+
+const STATUS = {
+  PROGRESS: 'PROGRESS',
+  FAILED: 'FAILED',
+  SUCCESS: 'SUCCESS',
+};
 
 export default function Lading({ itemId }: ItemProps) {
   const router = useRouter();
@@ -26,7 +31,7 @@ export default function Lading({ itemId }: ItemProps) {
       case STATUS.PROGRESS:
         //router.push('/detail');
         break;
-      case STATUS.FAILED || STATUS.SUCCESS:
+      case STATUS.SUCCESS || STATUS.FAILED:
         router.push('/end');
         break;
     }

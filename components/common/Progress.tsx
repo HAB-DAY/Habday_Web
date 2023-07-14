@@ -17,7 +17,7 @@ export default function Progress(props: ProgressProps) {
   return (
     <Styled.Root>
       {isPing && (
-        <Styled.Ping location={((totalPrice - goalPrice) / goalPrice) * 100}>
+        <Styled.Ping location={(totalPrice / goalPrice) * 26}>
           <Styled.Box>{amount && priceFormatter(amount)} 원</Styled.Box>
           <Image
             src={PingArrowImg}
@@ -37,22 +37,28 @@ export default function Progress(props: ProgressProps) {
 }
 const Styled = {
   Root: styled.article`
+    position: relative;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    width: 100%;
   `,
   Ping: styled.div<{ location: number }>`
-    //transform: translateX(location);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
+
     min-width: 5.2rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+    margin: 1rem 0;
     height: 2.6rem;
+
+    margin-left: ${({ location }) => {
+      console.log(location);
+      return `${location}rem`;
+    }};
   `,
   Box: styled.div`
     padding: 0.4rem 0.6rem;
