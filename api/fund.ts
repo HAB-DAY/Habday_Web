@@ -1,5 +1,5 @@
 import { client } from '.';
-import { DetailResponse } from '../types';
+import { DetailResponse, ParticipateResponse } from '../types';
 import { ParticipateInput } from '../types/responses/fund';
 
 export const fetchFundDetail = async (itemId: number) => {
@@ -10,7 +10,9 @@ export const fetchFundDetail = async (itemId: number) => {
 };
 
 export const postParticipate = async (memberId: number, participateBody: ParticipateInput) => {
-  const { data } = await client.post<ParticipateInput>(`/funding/participateFunding/${memberId}`, participateBody);
+  const {
+    data: { data },
+  } = await client.post<ParticipateResponse>(`/funding/participateFunding/${memberId}`, participateBody);
 
   return data;
 };

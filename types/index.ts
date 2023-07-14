@@ -1,4 +1,4 @@
-import { DetailOutput } from './responses/fund';
+import { DetailOutput, ParticipateInput } from './responses/fund';
 import { PaymentListOutput } from './responses/pay';
 
 // types
@@ -8,4 +8,17 @@ export interface DetailResponse {
 
 export interface PaymentResponse {
   data: PaymentListOutput;
+}
+
+export interface ParticipateResponse {
+  data: ParticipateInput;
+}
+
+export interface ParticipateErrorResponse {
+  response: {
+    data: {
+      code: number;
+      msg: string;
+    };
+  };
 }

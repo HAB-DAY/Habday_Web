@@ -18,7 +18,7 @@ export default function Progress(props: ProgressProps) {
     <Styled.Root>
       {isPing && (
         <Styled.Ping location={(totalPrice / goalPrice) * 26}>
-          <Styled.Box>{amount && priceFormatter(amount)} 원</Styled.Box>
+          <Styled.Box>{priceFormatter(totalPrice)} 원</Styled.Box>
           <Image
             src={PingArrowImg}
             alt="툴팁화살표 이미지"
@@ -43,6 +43,8 @@ const Styled = {
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
+
+    width: 100%;
   `,
   Ping: styled.div<{ location: number }>`
     display: flex;

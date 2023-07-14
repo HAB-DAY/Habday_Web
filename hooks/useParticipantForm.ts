@@ -4,6 +4,7 @@ import { participantSelector, participantState, paymentListState } from '../stat
 import { useEffect } from 'react';
 import { ParticipateInput } from '../types/responses/fund';
 import { postParticipate } from '../api/fund';
+import { ParticipateErrorResponse } from '../types';
 
 const QUERY_KEY = {
   participate: 'participate',
@@ -17,7 +18,10 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
     onSuccess(data) {
       console.log(data);
       queryClient.invalidateQueries([QUERY_KEY.participate, memberId.toString()]);
-      //onSuccessMutation();
+      onSuccessMutation();
+    },
+    onError({ response }: ParticipateErrorResponse) {
+      alert(response.data.msg);
     },
   });
 };
