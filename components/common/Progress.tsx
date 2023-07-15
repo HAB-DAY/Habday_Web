@@ -17,7 +17,7 @@ export default function Progress(props: ProgressProps) {
   return (
     <Styled.Root>
       {isPing && (
-        <Styled.Ping location={(totalPrice / goalPrice) * 26}>
+        <Styled.Ping location={totalPrice >= goalPrice ? 26 : (totalPrice / goalPrice) * 26}>
           <Styled.Box>{priceFormatter(totalPrice)} 원</Styled.Box>
           <Image
             src={PingArrowImg}
