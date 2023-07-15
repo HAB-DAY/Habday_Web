@@ -25,22 +25,16 @@ import { useFundDetail } from './useFundDetail';
 export const useParticipateMutation = (memberId: number, onSuccessMutation: () => void) => {
   const participant = useRecoilValue(participantState);
   const queryClient = useQueryClient();
-  const fundingId = useRecoilValue(fundingIdState);
-  const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
-  //const [funding, setFunding] = useRecoilState(fundingSelector);
-
-  // const refreshFunding = useRecoilCallback(({ snapshot }) => async () => {
-  //   const refreshedData = await snapshot.getPromise(fundingState);
-  //   console.log(refreshedData);
-  //   refresh();
-  // });
+  // const fundingId = useRecoilValue(fundingIdState);
+  // const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
 
   return useMutation(() => postParticipate(memberId, participant), {
     onSuccess(data) {
       console.log(data);
       queryClient.invalidateQueries([QUERY_KEY.fundDetail], { refetchInactive: true }); // refetch 안됨
-      //await refreshFunding();
-      //setFunding((prev) => ({ ...prev }));
+      (async () => {
+        await queryClient.refetchQueries({ queryKey: QUERY_KEY.fundDetail });
+      })().then(() => console.log('리패치됨'));
       //onSuccessMutation();
     },
     onError({ response }: ParticipateErrorResponse) {

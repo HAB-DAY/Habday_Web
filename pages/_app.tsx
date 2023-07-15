@@ -5,6 +5,7 @@ import MobileWrapper from '../styles/MobileWrapper';
 import '../styles/global.css';
 import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
 import Head from 'next/head';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <Head>
           <title>HAB-DAY</title>
         </Head>
