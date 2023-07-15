@@ -15,9 +15,5 @@ export const useFundDetail = (itemId: number) => {
     },
   });
 
-  useEffect(() => {
-    data && setFunding(data);
-  }, [data]);
-
   return { data, isLoading, isError };
 };

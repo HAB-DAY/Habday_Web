@@ -27,15 +27,20 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
   const queryClient = useQueryClient();
   // const fundingId = useRecoilValue(fundingIdState);
   // const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
+  const [funding, setFunding] = useRecoilState(fundingState);
+  const { data: newData } = useFundDetail(25);
 
   return useMutation(() => postParticipate(memberId, participant), {
     onSuccess(data) {
       console.log(data);
-      queryClient.invalidateQueries([QUERY_KEY.fundDetail], { refetchInactive: true }); // refetch 안됨
-      (async () => {
-        await queryClient.refetchQueries({ queryKey: QUERY_KEY.fundDetail });
-      })().then(() => console.log('리패치됨'));
+      queryClient.invalidateQueries([QUERY_KEY.fundDetail]); // refetch 안됨
+
+      // (async () => {
+      //   await queryClient.refetchQueries({ queryKey: QUERY_KEY.fundDetail });
+      // })().then(() => console.log('리패치됨'));
       //onSuccessMutation();
+      newData && setFunding(newData);
+      onSuccessMutation();
     },
     onError({ response }: ParticipateErrorResponse) {
       alert(response.data.msg);

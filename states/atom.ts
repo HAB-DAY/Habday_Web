@@ -36,12 +36,11 @@ export const fundingState = atom<DetailOutput>({
 export const fundingSelector = selector({
   key: 'fundingSelector',
   get: ({ get }) => {
-    const data = get(fundingState);
-    const { data: newData } = useFundDetail(get(fundingIdState));
-    return { ...data, ...newData };
+    get(fundingState);
+    return useFundDetail(get(fundingIdState));
   },
   set: ({ set }, newValue) => {
-    set(fundingState, newValue);
+    //set(fundingState, newValue);
   },
 });
 

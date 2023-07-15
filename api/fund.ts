@@ -3,6 +3,7 @@ import { DetailResponse, ParticipateResponse } from '../types';
 import { ParticipateInput } from '../types/responses/fund';
 
 export const fetchFundDetail = async (itemId: number) => {
+  console.log('api 리패치됨');
   const {
     data: { data },
   } = await client.get<DetailResponse>(`/funding/showFundingContent?itemId=${itemId}`);
