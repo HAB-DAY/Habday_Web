@@ -10,10 +10,13 @@ export const fetchPaymentList = async (memberId: number) => {
 };
 
 export const postNewPay = async (newPay: NewPayInput) => {
-  const memberId = 4;
   //   const {
   //     data: { data },
   //   } = await client.post(`/verifyIamport/noneauthpay/getBillingKey/${memberId}`, newPay);
   //   return data;
-  return client.post(`/verifyIamport/noneauthpay/getBillingKey/${memberId}`, newPay);
+  const memberId = 4;
+  const {
+    data: { data },
+  } = await client.post<PaymentResponse>(`/verifyIamport/noneauthpay/getBillingKey/${memberId}`, newPay);
+  return data;
 };

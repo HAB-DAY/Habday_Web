@@ -26,22 +26,22 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
   const participant = useRecoilValue(participantState);
   const queryClient = useQueryClient();
   const fundingId = useRecoilValue(fundingIdState);
-  //const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
-  const [funding, setFunding] = useRecoilState(fundingSelector);
+  const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
+  //const [funding, setFunding] = useRecoilState(fundingSelector);
 
   // const refreshFunding = useRecoilCallback(({ snapshot }) => async () => {
   //   const refreshedData = await snapshot.getPromise(fundingState);
   //   console.log(refreshedData);
-  //   refresh;
+  //   refresh();
   // });
 
   return useMutation(() => postParticipate(memberId, participant), {
-    async onSuccess(data) {
+    onSuccess(data) {
       console.log(data);
-      await queryClient.invalidateQueries([QUERY_KEY.participate, memberId.toString(), QUERY_KEY.fundDetail]); // refetch 안됨
+      queryClient.invalidateQueries([QUERY_KEY.fundDetail], { refetchInactive: true }); // refetch 안됨
       //await refreshFunding();
-      setFunding((prev) => ({ ...prev }));
-      onSuccessMutation();
+      //setFunding((prev) => ({ ...prev }));
+      //onSuccessMutation();
     },
     onError({ response }: ParticipateErrorResponse) {
       alert(response.data.msg);
@@ -63,9 +63,9 @@ export const useParticipantForm = (memberId: number, onSuccessMutation: () => vo
   };
 
   useEffect(() => {
-    console.log(paymendList);
+    console.log(participant);
     //setParticipant({ ...participant, paymentId: paymendList[0].paymentId });
-  }, [paymendList]);
+  }, [participant]);
 
   return { participant, setParticipantForm, submitPariticipant };
 };

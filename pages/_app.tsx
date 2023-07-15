@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import MobileWrapper from '../styles/MobileWrapper';
 import '../styles/global.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
 import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {

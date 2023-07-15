@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Progress from '../../components/common/Progress';
@@ -6,8 +6,8 @@ import { selectBoxImg } from '../../assets';
 import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
-import { fundingIdState, fundingState } from '../../states/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { fundingIdState, fundingSelector, fundingState } from '../../states/atom';
 import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
 import { usePaymentList } from '../../hooks/usePayment';
 import { useFundDetail } from '../../hooks/useFundDetail';
@@ -17,18 +17,28 @@ export default function Fund() {
 
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
   const fundingId = useRecoilValue(fundingIdState);
+  //const [funding, setFunding] = useRecoilState(fundingSelector);
 
   const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(4, async () => {
     router.push('/complete');
   });
   const { isError, isLoading, paymentList } = usePaymentList(4);
 
+  useEffect(() => {
+    paymentList.length && setParticipantForm({ paymentId: paymentList[0].paymentId });
+  }, [paymentList]);
+
   return (
     <Layout buttons={['다음']} onClickButton={submitPariticipant}>
       <Styled.Title>{hostName} 님에게</Styled.Title>
       <Styled.Form>
         <Styled.Label>보내는 분 성함</Styled.Label>
-        <Styled.Input id="buyer" type="text" onChange={(e) => setParticipantForm({ name: e.target.value })} />
+        <Styled.Input
+          value={participant.name}
+          id="buyer"
+          type="text"
+          onChange={(e) => setParticipantForm({ name: e.target.value })}
+        />
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>펀딩 금액</Styled.Label>
@@ -43,7 +53,10 @@ export default function Fund() {
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>응원 메시지</Styled.Label>
-        <Styled.Textarea onChange={(e) => setParticipantForm({ message: e.target.value })} />
+        <Styled.Textarea
+          value={participant.message}
+          onChange={(e) => setParticipantForm({ message: e.target.value })}
+        />
         <Styled.Maxline>{participant.message.length || 0}/60</Styled.Maxline>
       </Styled.Form>
       <Styled.Form>
@@ -52,13 +65,9 @@ export default function Fund() {
           <Styled.AddCardButton onClick={() => router.push('/card')}>카드 추가</Styled.AddCardButton>
         </Styled.Label>
         {paymentList.length ? (
-          <Styled.Select>
+          <Styled.Select defaultValue={0}>
             {paymentList.map(({ paymentId, paymentName }, index) => (
-              <option
-                selected={index === 0}
-                key={paymentId}
-                onClick={() => setParticipantForm({ paymentId: paymentId })}
-              >
+              <option key={paymentId} onClick={() => setParticipantForm({ paymentId: paymentId })}>
                 {paymentName}
               </option>
             ))}
