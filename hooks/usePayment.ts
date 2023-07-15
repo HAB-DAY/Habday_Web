@@ -4,10 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { fundingState, paymentListState } from '../states/atom';
 import { useEffect } from 'react';
 import { fetchPaymentList } from '../api/pay';
-
-const QUERY_KEY = {
-  paymentList: 'paymentList',
-};
+import { QUERY_KEY } from '.';
 
 // 펀딩 아이템 내용 상세보기
 export const usePaymentList = (memberId: number) => {

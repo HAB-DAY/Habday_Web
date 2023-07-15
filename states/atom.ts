@@ -4,6 +4,7 @@ import { AirpodImg } from '../assets';
 import { STATUS } from '../util/constant';
 import { NewPayInput, PaymentType } from '../types/responses/pay';
 import { recoilPersist } from 'recoil-persist';
+import { useFundDetail } from '../hooks/useFundDetail';
 
 const { persistAtom } = recoilPersist();
 
@@ -30,6 +31,16 @@ export const fundingState = atom<DetailOutput>({
     fundingParticipantList: [],
   },
   effects_UNSTABLE: [persistAtom],
+});
+
+export const fundingSelector = selector({
+  key: 'fundingSelector',
+  get: async ({ get }) => {
+    const data = get(fundingState);
+    const { data: newData } = useFundDetail(get(fundingIdState));
+    return { ...data, ...newData };
+  },
+  set: () => {},
 });
 
 export const participantState = atom<ParticipateInput>({

@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil';
 import { fundingIdState, fundingState } from '../../states/atom';
 import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
 import { usePaymentList } from '../../hooks/usePayment';
+import { useFundDetail } from '../../hooks/useFundDetail';
 
 export default function Fund() {
   const router = useRouter();
@@ -17,8 +18,10 @@ export default function Fund() {
   const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
   const fundingId = useRecoilValue(fundingIdState);
 
-  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(1, () => router.push('/complete'));
-  const { isError, isLoading, paymentList } = usePaymentList(1);
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(4, async () => {
+    router.push('/complete');
+  });
+  const { isError, isLoading, paymentList } = usePaymentList(4);
 
   return (
     <Layout buttons={['다음']} onClickButton={submitPariticipant}>
@@ -48,13 +51,21 @@ export default function Fund() {
           카드 결제
           <Styled.AddCardButton onClick={() => router.push('/card')}>카드 추가</Styled.AddCardButton>
         </Styled.Label>
-        <Styled.Select>
-          {paymentList.map(({ paymentId, paymentName }) => (
-            <option key={paymentId} onClick={() => setParticipantForm({ paymentId: paymentId })}>
-              {paymentName}
-            </option>
-          ))}
-        </Styled.Select>
+        {paymentList.length ? (
+          <Styled.Select>
+            {paymentList.map(({ paymentId, paymentName }, index) => (
+              <option
+                selected={index === 0}
+                key={paymentId}
+                onClick={() => setParticipantForm({ paymentId: paymentId })}
+              >
+                {paymentName}
+              </option>
+            ))}
+          </Styled.Select>
+        ) : (
+          <Styled.Message>결제수단을 추가해주세요</Styled.Message>
+        )}
       </Styled.Form>
     </Layout>
   );
@@ -145,5 +156,10 @@ const Styled = {
     background: #ececec;
     color: #444;
     pointer-events: none;
+  `,
+  Message: styled.div`
+    margin-top: 0.8rem;
+    margin-bottom: 4rem;
+    color: #ff0000;
   `,
 };

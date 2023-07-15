@@ -10,7 +10,7 @@ export default function Card() {
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const { newPay, setNewPayForm, submitNewPay } = useNewPayForm(
-    1,
+    4,
     () => router.push('/fund'),
     () => setIsModal(true)
   );

@@ -58,7 +58,7 @@ const Styled = {
     height: 2.6rem;
 
     margin-left: ${({ location }) => {
-      console.log(location);
+      //console.log(location);
       return `${location}rem`;
     }};
   `,
