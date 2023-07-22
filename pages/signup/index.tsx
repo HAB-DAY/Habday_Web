@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
 
 export default function Signup() {
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(router.query);
+  }, [router]);
+
   return (
     <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={() => router.push('/detail')}>
       <Styled.Title>추가정보를 입력해주세요</Styled.Title>

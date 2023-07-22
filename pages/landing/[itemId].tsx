@@ -25,6 +25,9 @@ export default function Lading({ itemId }: ItemProps) {
   const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
   const setFundingId = useSetRecoilState(fundingIdState);
 
+  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&state=${process.env.NEXT_PUBLIC_LOGIN_STATE}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}`;
+  const onClickLogin = () => window.location.assign(NAVER_AUTH_URL);
+
   useEffect(() => {
     setFundingId(parseInt(itemId));
     switch (data?.status) {
@@ -46,7 +49,7 @@ export default function Lading({ itemId }: ItemProps) {
   }
 
   return (
-    <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={() => router.push('/signup')}>
+    <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
       <Styled.Emoji>🎁</Styled.Emoji>
       <Styled.Message>{data?.hostName}님의 펀딩에 참여해보세요!</Styled.Message>
     </Layout>
