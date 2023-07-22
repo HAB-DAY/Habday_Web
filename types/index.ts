@@ -22,3 +22,12 @@ export interface ParticipateErrorResponse {
     };
   };
 }
+
+export interface AccessTokenResponse {
+  accessToken: string;
+}
+
+export interface SignupResponse {
+  success: boolean;
+  msg: string;
+}

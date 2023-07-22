@@ -6,4 +6,6 @@ export const QUERY_KEY = {
   participate: 'participate',
   paymentList: 'paymentList',
   newPay: 'newPay',
+  accessToken: 'accessToken',
+  signup: 'signup',
 };

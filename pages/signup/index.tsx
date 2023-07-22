@@ -1,14 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useDebugValue, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { accessTokenState } from '../../states/atom';
+import { useAccessToken } from '../../hooks/useSignUp';
 
 export default function Signup() {
   const router = useRouter();
+  const [code, setCode] = useState<string>();
+  const { isLoading, isError } = useAccessToken(code ?? '');
 
   useEffect(() => {
-    console.log(router.query);
+    const code: string = router.query.code as string;
+    console.log(code);
+    setCode(code);
   }, [router]);
+
+  if (isLoading) {
+    return <div>로그인중..</div>;
+  }
+
+  if (isError) {
+    return <div>로그인중..</div>;
+  }
 
   return (
     <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={() => router.push('/detail')}>

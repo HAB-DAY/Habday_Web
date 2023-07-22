@@ -8,6 +8,18 @@ import { useFundDetail } from '../hooks/useFundDetail';
 
 const { persistAtom } = recoilPersist();
 
+export const memberIdState = atom<number>({
+  key: 'memberId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const accessTokenState = atom<string>({
+  key: 'accessToken',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const fundingIdState = atom<number>({
   key: 'fundingId',
   default: 0,
