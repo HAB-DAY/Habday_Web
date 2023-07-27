@@ -11,6 +11,10 @@ export const useAccessToken = (code: string) => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   useEffect(() => {
+    console.log(accessToken);
+  }, [accessToken]);
+
+  useEffect(() => {
     data && setAccessToken(data.accessToken);
   }, []);
 

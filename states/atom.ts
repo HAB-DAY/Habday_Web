@@ -9,25 +9,25 @@ import { useFundDetail } from '../hooks/useFundDetail';
 const { persistAtom } = recoilPersist();
 
 export const memberIdState = atom<number>({
-  key: 'memberId',
+  key: 'memberIdState',
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
 
 export const accessTokenState = atom<string>({
-  key: 'accessToken',
+  key: 'accessTokenState',
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
 
 export const fundingIdState = atom<number>({
-  key: 'fundingId',
+  key: 'fundingIdState',
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
 
 export const fundingState = atom<DetailOutput>({
-  key: 'funding',
+  key: 'fundingState',
   default: {
     fundingItemImg: `${AirpodImg}`,
     fundingName: '',
@@ -57,7 +57,7 @@ export const fundingSelector = selector({
 });
 
 export const participantState = atom<ParticipateInput>({
-  key: 'participant',
+  key: 'participantState',
   default: {
     fundingItemId: 0,
     name: '',
@@ -90,7 +90,7 @@ export const paymentListState = atom<PaymentType[]>({
 });
 
 export const newPayState = atom<NewPayInput>({
-  key: 'newPay',
+  key: 'newPayState',
   default: {
     payment_name: '',
     card_number: '',

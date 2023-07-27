@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fundingIdState, fundingState } from '../../states/atom';
 
-interface ParamProps {
+export interface ParamProps {
   params: ItemProps;
 }
 
-interface ItemProps {
+export interface ItemProps {
   itemId: string;
 }
 
@@ -20,7 +20,7 @@ const STATUS = {
   SUCCESS: 'SUCCESS',
 };
 
-export default function Lading({ itemId }: ItemProps) {
+export default function Landing({ itemId }: ItemProps) {
   const router = useRouter();
   const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
   const setFundingId = useSetRecoilState(fundingIdState);

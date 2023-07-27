@@ -41,7 +41,7 @@ export default function List() {
         </Styled.TextContainer>
       </Styled.ItemContainer>
       {/* <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} /> */}
-      <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} />
+      {/* <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} /> */}
     </Layout>
   );
 }
@@ -68,14 +68,17 @@ const Styled = {
   `,
   ItemContainer: styled.article`
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    min-width: 30.8rem;
-    margin-bottom: 2.5rem;
+
+    width: 30.8rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
     cursor: pointer;
     &:hover {
       opacity: 0.6;
       transition: 0.3s ease;
+    }
+    &:last-child {
+      border-bottom: 0;
     }
   `,
   ImageContainer: styled.div`

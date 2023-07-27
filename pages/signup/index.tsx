@@ -2,8 +2,6 @@ import React, { useDebugValue, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { accessTokenState } from '../../states/atom';
 import { useAccessToken } from '../../hooks/useSignUp';
 
 export default function Signup() {
