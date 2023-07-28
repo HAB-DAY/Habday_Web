@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import CommonModal from '../../components/common/modal/CommonModal';
-import { useNewPayForm } from '../../hooks/useNewPayForm';
+import { useNewPayForm } from '../../hooks/pay/useNewPayForm';
 import { useRouter } from 'next/router';
 
 export default function Card() {
@@ -10,7 +10,6 @@ export default function Card() {
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const { newPay, setNewPayForm, submitNewPay } = useNewPayForm(
-    4,
     () => router.push('/fund'),
     () => setIsModal(true)
   );

@@ -2,7 +2,7 @@ import React, { useDebugValue, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
-import { useAccessToken } from '../../hooks/useSignUp';
+import { useAccessToken } from '../../hooks/user/useSignUp';
 
 export default function Signup() {
   const router = useRouter();

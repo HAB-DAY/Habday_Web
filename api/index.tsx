@@ -20,7 +20,7 @@ function AxiosInterceptor({ children }: PropsWithChildren) {
     if (config.headers && !config.headers['accessToken']) {
       config.headers['accessToken'] = accessToken
         ? `${accessToken}`
-        : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3aktnajVlVVhBSXpmNWItZmxoTHBldEZNOVcxSGMwWXA2XzZSbXhhbm40Iiwibmlja25hbWUiOiJ3aktnajVlVVhBSXpmNWItZmxoTHBldEZNOVcxSGMwWXA2XzZSbXhhbm40IiwiaWQiOjcsImV4cCI6MTY5MDAyNTc5Nn0.TfBnepc1uYQlckB4-EA_CxtVQi8Qiy296kVTlDnC-XEr3RiM7uFpt69l2V5bGP-2OQfO64x-S8OHPP1zm3XXsw';
+        : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjWVJsWTJzRDdoYjZXZlhMVzJTVG9MZlg2QWtHa08xZUFKTlQ0cXhjdnNZIiwibmlja25hbWUiOiJjWVJsWTJzRDdoYjZXZlhMVzJTVG9MZlg2QWtHa08xZUFKTlQ0cXhjdnNZIiwiaWQiOjUsImV4cCI6MTY4OTgzNjcxOX0.cZkOxE60rPg9k0L4lkmE0VKrKwHMH1_3YnhhQ8yraSd0cMOPIuPDulx2945ziJt9UEwudFLoD1VLShzd3qc2tA';
 
       return config;
     }

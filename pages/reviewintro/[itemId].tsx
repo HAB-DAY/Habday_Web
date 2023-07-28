@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../../components/common/Layout';
 import styled from 'styled-components';
 import Greeting from '../../components/common/Greeting';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { ItemProps, ParamProps } from '../landing/[itemId]';
 import { useRouter } from 'next/router';
 

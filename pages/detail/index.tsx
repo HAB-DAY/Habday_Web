@@ -7,7 +7,7 @@ import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { fundingIdState } from '../../states/atom';
 
 export default function Detail() {

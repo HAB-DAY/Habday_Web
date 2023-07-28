@@ -4,42 +4,27 @@ import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import CommonModal from '../../components/common/modal/CommonModal';
+import { useParticipantList } from '../../hooks/participate/useParticipantList';
 
 export default function List() {
+  const { data: list, isError, isLoading } = useParticipantList();
+
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
+      {list?.map((item) => (
+        <Styled.ItemContainer key={item.fundingItemId}>
+          <Styled.ImageContainer>
+            <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
+          </Styled.ImageContainer>
+          <Styled.TextContainer>
+            <Styled.ItemName>{item.fundingName}</Styled.ItemName>
+            <Styled.ItemPrice>{item.fundingAmount}</Styled.ItemPrice>
+            <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
+          </Styled.TextContainer>
+        </Styled.ItemContainer>
+      ))}
       {/* <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} /> */}
       {/* <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} /> */}
     </Layout>

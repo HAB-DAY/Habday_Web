@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fundingIdState } from '../../states/atom';

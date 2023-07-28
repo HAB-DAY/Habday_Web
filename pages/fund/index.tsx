@@ -6,23 +6,22 @@ import { selectBoxImg } from '../../assets';
 import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { fundingIdState } from '../../states/atom';
-import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
-import { usePaymentList } from '../../hooks/usePayment';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useParticipantForm } from '../../hooks/participate/useParticipantForm';
+import { usePaymentList } from '../../hooks/pay/usePayment';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 
 export default function Fund() {
   const router = useRouter();
 
   const itemId = useRecoilValue(fundingIdState);
   const { detail } = useFundDetail(itemId);
-  //const [funding, setFunding] = useRecoilState(fundingSelector);
 
-  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(4, async () => {
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(async () => {
     router.push('/complete');
   });
-  const { isError, isLoading, paymentList } = usePaymentList(4);
+  const { isError, isLoading, paymentList } = usePaymentList();
 
   useEffect(() => {
     paymentList.length && setParticipantForm({ paymentId: paymentList[0].paymentId });

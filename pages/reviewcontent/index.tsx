@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { fundingIdState } from '../../states/atom';
 import styled from 'styled-components';
 import priceFormatter from '../../util/priceFormatter';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 
 export default function ReviewContent() {
   const itemId = useRecoilValue(fundingIdState);

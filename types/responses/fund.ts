@@ -33,3 +33,16 @@ export interface ParticipateInput {
   buyer_tel: string;
   buyer_email: string;
 }
+
+export interface ParticipateListOutput {
+  creatorName: string;
+  fundingAmount: number;
+  fundingStatus: StatusType;
+  fundingMemberId: number;
+  fundingName: string;
+  merchantId: string;
+  fundingItemImg: string;
+  fundingDate: string;
+  payment_status: 'ready' | 'fail';
+  fundingItemId: number;
+}

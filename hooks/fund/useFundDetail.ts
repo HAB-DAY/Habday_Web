@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { fetchFundDetail } from '../api/fund';
+import { fetchFundDetail } from '../../api/fund';
 import { useSetRecoilState } from 'recoil';
-import { QUERY_KEY } from '.';
+import { QUERY_KEY } from '..';
 
 // 펀딩 아이템 내용 상세보기
 export const useFundDetail = (itemId: number) => {

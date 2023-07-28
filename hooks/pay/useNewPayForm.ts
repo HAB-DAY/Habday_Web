@@ -1,8 +1,8 @@
-import { NewPayInput } from '../types/responses/pay';
+import { NewPayInput } from '../../types/responses/pay';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { newPayState } from '../states/atom';
+import { newPayState } from '../../states/atom';
 import { useMutation, useQueryClient } from 'react-query';
-import { postNewPay } from '../api/pay';
+import { postNewPay } from '../../api/pay';
 
 export const useNewPayForm = (onSuccessMutation: () => void, onErrorMutation: () => void) => {
   const [newPay, setNewPay] = useRecoilState(newPayState);

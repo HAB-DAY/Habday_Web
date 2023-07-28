@@ -1,8 +1,8 @@
 import { useRecoilState } from 'recoil';
-import { accessTokenState } from '../states/atom';
-import { fetchAccessToken } from '../api/user';
+import { accessTokenState } from '../../states/atom';
+import { fetchAccessToken } from '../../api/user';
 import { useQuery } from 'react-query';
-import { QUERY_KEY } from '.';
+import { QUERY_KEY } from '..';
 import { useEffect } from 'react';
 
 // 펀딩 아이템 내용 상세보기

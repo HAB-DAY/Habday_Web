@@ -4,7 +4,7 @@ import { AirpodImg } from '../assets';
 import { STATUS } from '../util/constant';
 import { NewPayInput, PaymentType } from '../types/responses/pay';
 import { recoilPersist } from 'recoil-persist';
-import { useFundDetail } from '../hooks/useFundDetail';
+import { useFundDetail } from '../hooks/fund/useFundDetail';
 
 const { persistAtom } = recoilPersist();
 

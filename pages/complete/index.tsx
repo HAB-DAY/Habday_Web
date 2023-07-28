@@ -7,7 +7,7 @@ import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
 import { useRecoilValue } from 'recoil';
 import { fundingIdState } from '../../states/atom';
-import { useFundDetail } from '../../hooks/useFundDetail';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 
 export default function Complete() {
   const itemId = useRecoilValue(fundingIdState);
