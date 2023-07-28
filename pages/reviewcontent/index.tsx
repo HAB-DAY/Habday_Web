@@ -3,22 +3,25 @@ import Layout from '../../components/common/Layout';
 import { AirpodImg } from '../../assets';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { fundingState } from '../../states/atom';
+import { fundingIdState } from '../../states/atom';
 import styled from 'styled-components';
 import priceFormatter from '../../util/priceFormatter';
+import { useFundDetail } from '../../hooks/useFundDetail';
 
 export default function ReviewContent() {
-  const { hostName, fundingName, fundingItemImg, totalPrice, goalPrice } = useRecoilValue(fundingState);
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail, isError, isLoading } = useFundDetail(itemId);
+
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Titles>
-        <Styled.BoldTitle>{fundingName}</Styled.BoldTitle>
+        <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
         <Styled.Title>구매완료!</Styled.Title>
       </Styled.Titles>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={AirpodImg}
+            src={detail?.fundingItemImg ?? AirpodImg}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -30,7 +33,7 @@ export default function ReviewContent() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>달성 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>🎉 ￦ {priceFormatter(totalPrice)} 🎉</Styled.ProgressAmount>
+        <Styled.ProgressAmount>🎉 ￦ {priceFormatter(detail?.totalPrice ?? 0)} 🎉</Styled.ProgressAmount>
       </Styled.ProgressContainer>
     </Layout>
   );

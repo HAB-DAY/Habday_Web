@@ -4,7 +4,7 @@ import Layout from '../../components/common/Layout';
 import { useFundDetail } from '../../hooks/useFundDetail';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { fundingIdState, fundingState } from '../../states/atom';
+import { fundingIdState } from '../../states/atom';
 
 export interface ParamProps {
   params: ItemProps;
@@ -22,7 +22,7 @@ const STATUS = {
 
 export default function Landing({ itemId }: ItemProps) {
   const router = useRouter();
-  const { data, isLoading, isError } = useFundDetail(parseInt(itemId));
+  const { detail, isLoading, isError } = useFundDetail(parseInt(itemId));
   const setFundingId = useSetRecoilState(fundingIdState);
 
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&state=${process.env.NEXT_PUBLIC_LOGIN_STATE}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URL}`;
@@ -30,7 +30,7 @@ export default function Landing({ itemId }: ItemProps) {
 
   useEffect(() => {
     setFundingId(parseInt(itemId));
-    switch (data?.status) {
+    switch (detail?.status) {
       case STATUS.PROGRESS:
         //router.push('/detail');
         break;
@@ -38,20 +38,20 @@ export default function Landing({ itemId }: ItemProps) {
         router.push('/end');
         break;
     }
-  }, [data]);
+  }, [detail]);
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-  if (isError || data?.status === STATUS.FAILED) {
+  if (isError || detail?.status === STATUS.FAILED) {
     return <div>error! 존재하지 않는 펀딩입니다</div>;
   }
 
   return (
     <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
       <Styled.Emoji>🎁</Styled.Emoji>
-      <Styled.Message>{data?.hostName}님의 펀딩에 참여해보세요!</Styled.Message>
+      <Styled.Message>{detail?.hostName}님의 펀딩에 참여해보세요!</Styled.Message>
     </Layout>
   );
 }

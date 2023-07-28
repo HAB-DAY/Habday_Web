@@ -7,29 +7,25 @@ import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { fundingState } from '../../states/atom';
-
-type FundObjectType = {
-  name: string;
-  goalPrice: number;
-  totalPrice: number;
-};
+import { useFundDetail } from '../../hooks/useFundDetail';
+import { fundingIdState } from '../../states/atom';
 
 export default function Detail() {
   const router = useRouter();
-  const { hostName, fundingName, fundingItemImg, totalPrice, goalPrice } = useRecoilValue(fundingState);
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail, isError, isLoading } = useFundDetail(itemId);
 
   return (
     <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>
       <Styled.Titles>
-        <Styled.Title>{hostName}님은</Styled.Title>
-        <Styled.BoldTitle>{fundingName}</Styled.BoldTitle>
+        <Styled.Title>{detail?.hostName}님은</Styled.Title>
+        <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
         <Styled.Title>를(을) 갖고싶어해요</Styled.Title>
       </Styled.Titles>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={AirpodImg}
+            src={detail?.fundingItemImg ?? AirpodImg}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -41,8 +37,8 @@ export default function Detail() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {priceFormatter(totalPrice)}</Styled.ProgressAmount>
-        <Progress totalPrice={totalPrice} goalPrice={goalPrice} />
+        <Styled.ProgressAmount>￦ {priceFormatter(detail?.totalPrice ?? 0)}</Styled.ProgressAmount>
+        <Progress totalPrice={detail?.totalPrice ?? 0} goalPrice={detail?.goalPrice ?? 0} />
       </Styled.ProgressContainer>
     </Layout>
   );

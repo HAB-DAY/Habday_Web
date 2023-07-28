@@ -7,14 +7,7 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from 'recoil';
-import {
-  fundingIdState,
-  fundingSelector,
-  fundingState,
-  participantSelector,
-  participantState,
-  paymentListState,
-} from '../states/atom';
+import { participantSelector, participantState, paymentListState } from '../states/atom';
 import { useEffect } from 'react';
 import { ParticipateInput } from '../types/responses/fund';
 import { postParticipate } from '../api/fund';
@@ -25,21 +18,10 @@ import { useFundDetail } from './useFundDetail';
 export const useParticipateMutation = (memberId: number, onSuccessMutation: () => void) => {
   const participant = useRecoilValue(participantState);
   const queryClient = useQueryClient();
-  // const fundingId = useRecoilValue(fundingIdState);
-  // const refresh = useRecoilRefresher_UNSTABLE(fundingSelector);
-  const [funding, setFunding] = useRecoilState(fundingState);
-  const { data: newData } = useFundDetail(25);
 
   return useMutation(() => postParticipate(memberId, participant), {
-    onSuccess(data) {
-      console.log(data);
-      queryClient.invalidateQueries([QUERY_KEY.fundDetail]); // refetch 안됨
-
-      // (async () => {
-      //   await queryClient.refetchQueries({ queryKey: QUERY_KEY.fundDetail });
-      // })().then(() => console.log('리패치됨'));
-      //onSuccessMutation();
-      newData && setFunding(newData);
+    onSuccess() {
+      queryClient.invalidateQueries([QUERY_KEY.fundDetail, memberId]); // refetch 안됨
       onSuccessMutation();
     },
     onError({ response }: ParticipateErrorResponse) {
@@ -50,7 +32,6 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
 
 export const useParticipantForm = (memberId: number, onSuccessMutation: () => void) => {
   const [participant, setParticipant] = useRecoilState(participantSelector);
-  const paymendList = useRecoilValue(paymentListState);
   const participantMutation = useParticipateMutation(memberId, onSuccessMutation);
 
   const setParticipantForm = (input: Partial<ParticipateInput>) => {
@@ -60,11 +41,6 @@ export const useParticipantForm = (memberId: number, onSuccessMutation: () => vo
   const submitPariticipant = () => {
     participantMutation.mutate();
   };
-
-  useEffect(() => {
-    console.log(participant);
-    //setParticipant({ ...participant, paymentId: paymendList[0].paymentId });
-  }, [participant]);
 
   return { participant, setParticipantForm, submitPariticipant };
 };

@@ -6,24 +6,28 @@ import { AirpodImg } from '../../assets';
 import Progress from '../../components/common/Progress';
 import priceFormatter from '../../util/priceFormatter';
 import { useRecoilValue } from 'recoil';
-import { fundingState } from '../../states/atom';
+import { fundingIdState } from '../../states/atom';
+import { useFundDetail } from '../../hooks/useFundDetail';
 
 export default function Complete() {
-  const { hostName, goalPrice, totalPrice, fundingName, fundingItemImg } = useRecoilValue(fundingState);
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail, isError, isLoading } = useFundDetail(itemId);
 
   return (
     <Layout buttons={['친구에게 알려주기', '내 펀딩 만들러가기']}>
       <Styled.Titles>
         <Styled.Title>펀딩참여 완료!</Styled.Title>
-        <Styled.BoldTitle>{fundingName}</Styled.BoldTitle>
+        <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
         <Styled.Title>
-          {totalPrice === goalPrice ? `${hostName}님께 전달될 예정이에요` : '까지 얼마남지 않았어요'}
+          {detail?.totalPrice === detail?.goalPrice
+            ? `${detail?.hostName}님께 전달될 예정이에요`
+            : '까지 얼마남지 않았어요'}
         </Styled.Title>
       </Styled.Titles>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={AirpodImg}
+            src={detail?.fundingItemImg ?? AirpodImg}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -35,8 +39,8 @@ export default function Complete() {
       </Styled.Images>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {priceFormatter(totalPrice)}</Styled.ProgressAmount>
-        <Progress totalPrice={totalPrice} goalPrice={goalPrice} />
+        <Styled.ProgressAmount>￦ {priceFormatter(detail?.totalPrice ?? 0)}</Styled.ProgressAmount>
+        <Progress totalPrice={detail?.totalPrice ?? 0} goalPrice={detail?.goalPrice ?? 0} />
       </Styled.ProgressContainer>
     </Layout>
   );

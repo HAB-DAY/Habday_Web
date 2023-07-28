@@ -26,35 +26,35 @@ export const fundingIdState = atom<number>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const fundingState = atom<DetailOutput>({
-  key: 'fundingState',
-  default: {
-    fundingItemImg: `${AirpodImg}`,
-    fundingName: '',
-    fundDetail: '',
-    itemPrice: 0,
-    totalPrice: 0,
-    goalPrice: 0,
-    startDate: 'YYYY-MM-DD',
-    finishDate: 'YYYY-MM-DD',
-    percentage: 0,
-    status: 'PROGRESS',
-    hostName: '',
-    fundingParticipantList: [],
-  },
-  effects_UNSTABLE: [persistAtom],
-});
+// export const fundingState = atom<DetailOutput>({
+//   key: 'fundingState',
+//   default: {
+//     fundingItemImg: `${AirpodImg}`,
+//     fundingName: '',
+//     fundDetail: '',
+//     itemPrice: 0,
+//     totalPrice: 0,
+//     goalPrice: 0,
+//     startDate: 'YYYY-MM-DD',
+//     finishDate: 'YYYY-MM-DD',
+//     percentage: 0,
+//     status: 'PROGRESS',
+//     hostName: '',
+//     fundingParticipantList: [],
+//   },
+//   effects_UNSTABLE: [persistAtom],
+// });
 
-export const fundingSelector = selector({
-  key: 'fundingSelector',
-  get: ({ get }) => {
-    get(fundingState);
-    return useFundDetail(get(fundingIdState));
-  },
-  set: ({ set }, newValue) => {
-    //set(fundingState, newValue);
-  },
-});
+// export const fundingSelector = selector({
+//   key: 'fundingSelector',
+//   get: ({ get }) => {
+//     get(fundingState);
+//     return useFundDetail(get(fundingIdState));
+//   },
+//   set: ({ set }, newValue) => {
+//     //set(fundingState, newValue);
+//   },
+// });
 
 export const participantState = atom<ParticipateInput>({
   key: 'participantState',

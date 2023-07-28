@@ -7,7 +7,7 @@ import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { fundingIdState, fundingSelector, fundingState } from '../../states/atom';
+import { fundingIdState } from '../../states/atom';
 import { useParticipantForm, useParticipateMutation } from '../../hooks/useParticipantForm';
 import { usePaymentList } from '../../hooks/usePayment';
 import { useFundDetail } from '../../hooks/useFundDetail';
@@ -15,8 +15,8 @@ import { useFundDetail } from '../../hooks/useFundDetail';
 export default function Fund() {
   const router = useRouter();
 
-  const { hostName, totalPrice, goalPrice } = useRecoilValue(fundingState);
-  const fundingId = useRecoilValue(fundingIdState);
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail } = useFundDetail(itemId);
   //const [funding, setFunding] = useRecoilState(fundingSelector);
 
   const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(4, async () => {
@@ -30,7 +30,7 @@ export default function Fund() {
 
   return (
     <Layout buttons={['다음']} onClickButton={submitPariticipant}>
-      <Styled.Title>{hostName} 님에게</Styled.Title>
+      <Styled.Title>{detail?.hostName} 님에게</Styled.Title>
       <Styled.Form>
         <Styled.Label>보내는 분 성함</Styled.Label>
         <Styled.Input
@@ -42,12 +42,17 @@ export default function Fund() {
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>펀딩 금액</Styled.Label>
-        <Progress goalPrice={goalPrice} totalPrice={totalPrice} isPing amount={participant.amount} />
+        <Progress
+          goalPrice={detail?.goalPrice ?? 0}
+          totalPrice={detail?.totalPrice ?? 0}
+          isPing
+          amount={participant.amount}
+        />
         <Styled.Input
           id="amount"
           type="number"
-          max={`${goalPrice - totalPrice}`}
-          placeholder={`최대 ${priceFormatter(goalPrice - totalPrice)}원까지 가능해요`}
+          max={`${detail?.goalPrice ?? 0 - (detail?.totalPrice ?? 0)}`}
+          placeholder={`최대 ${priceFormatter(detail?.goalPrice ?? 0 - (detail?.totalPrice ?? 0))}원까지 가능해요`}
           onChange={(e) => setParticipantForm({ amount: parseInt(e.target.value) })}
         />
       </Styled.Form>
