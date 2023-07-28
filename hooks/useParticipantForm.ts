@@ -19,7 +19,7 @@ export const useParticipateMutation = (memberId: number, onSuccessMutation: () =
   const participant = useRecoilValue(participantState);
   const queryClient = useQueryClient();
 
-  return useMutation(() => postParticipate(memberId, participant), {
+  return useMutation(() => postParticipate(participant), {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.fundDetail, memberId]); // refetch 안됨
       onSuccessMutation();

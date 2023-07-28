@@ -1,5 +1,3 @@
-import { fundingState, newPayState, participantState, paymentListState } from '../states/atom';
-
 // hooks
 export const QUERY_KEY = {
   fundDetail: 'fundingState',

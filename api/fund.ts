@@ -10,10 +10,10 @@ export const fetchFundDetail = async (itemId: number) => {
   return data;
 };
 
-export const postParticipate = async (memberId: number, participateBody: ParticipateInput) => {
+export const postParticipate = async (participateBody: ParticipateInput) => {
   const {
     data: { data },
-  } = await client.post<ParticipateResponse>(`/funding/participateFunding/${memberId}`, participateBody);
+  } = await client.post<ParticipateResponse>(`/funding/participateFunding`, participateBody);
 
   return data;
 };
