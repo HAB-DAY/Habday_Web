@@ -5,6 +5,7 @@ import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { fundingIdState } from '../../states/atom';
+import Greeting from '../../components/common/Greeting';
 
 export interface ParamProps {
   params: ItemProps;
@@ -30,14 +31,6 @@ export default function Landing({ itemId }: ItemProps) {
 
   useEffect(() => {
     setFundingId(parseInt(itemId));
-    switch (detail?.status) {
-      case STATUS.PROGRESS:
-        //router.push('/detail');
-        break;
-      case STATUS.SUCCESS || STATUS.FAILED:
-        router.push('/end');
-        break;
-    }
   }, [detail]);
 
   if (isLoading) {
@@ -48,10 +41,13 @@ export default function Landing({ itemId }: ItemProps) {
     return <div>error! 존재하지 않는 펀딩입니다</div>;
   }
 
-  return (
+  return detail?.status === STATUS.PROGRESS ? (
     <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
-      <Styled.Emoji>🎁</Styled.Emoji>
-      <Styled.Message>{detail?.hostName}님의 펀딩에 참여해보세요!</Styled.Message>
+      <Greeting message={`${detail?.hostName}님의 펀딩에 참여해보세요!`} />
+    </Layout>
+  ) : (
+    <Layout>
+      <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={() => router.push('/review')} />
     </Layout>
   );
 }

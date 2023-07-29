@@ -1,5 +1,5 @@
 import { client } from '.';
-import { ParticipateErrorResponse, Response } from '../types';
+import { ParticipateErrorResponse, ParticipateListResponse, Response } from '../types';
 import { ParticipateInput, ParticipateListOutput } from '../types/responses/fund';
 
 export const postParticipate = async (participateBody: ParticipateInput) => {
@@ -10,9 +10,10 @@ export const postParticipate = async (participateBody: ParticipateInput) => {
 
 export const fetchParticipateList = async (lastItemId?: number) => {
   const {
-    data: { data },
-  } = await client.get<Response<ParticipateListOutput[]>>(
+    data: { lists },
+  } = await client.get<ParticipateListResponse>(
     lastItemId ? `/funding/itemList/participated?lastItemId=${lastItemId}` : `/funding/itemList/participated`
   );
-  return data;
+
+  return lists;
 };

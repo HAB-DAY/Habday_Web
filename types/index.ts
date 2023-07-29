@@ -1,3 +1,5 @@
+import { ParticipateListOutput } from './responses/fund';
+
 export interface ParticipateErrorResponse {
   response: {
     data: {
@@ -24,4 +26,8 @@ export interface ErrorResponse<T> {
   success: boolean;
   msg: string;
   data?: T;
+}
+
+export interface ParticipateListResponse {
+  lists: ParticipateListOutput[];
 }

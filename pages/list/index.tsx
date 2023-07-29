@@ -7,24 +7,28 @@ import CommonModal from '../../components/common/modal/CommonModal';
 import { useParticipantList } from '../../hooks/participate/useParticipantList';
 
 export default function List() {
-  const { data: list, isError, isLoading } = useParticipantList();
+  const { data, isError, isLoading } = useParticipantList();
 
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
-      {list?.map((item) => (
-        <Styled.ItemContainer key={item.fundingItemId}>
-          <Styled.ImageContainer>
-            <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-          </Styled.ImageContainer>
-          <Styled.TextContainer>
-            <Styled.ItemName>{item.fundingName}</Styled.ItemName>
-            <Styled.ItemPrice>{item.fundingAmount}</Styled.ItemPrice>
-            <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
-          </Styled.TextContainer>
-        </Styled.ItemContainer>
-      ))}
+      {data?.length ? (
+        data.map((item) => (
+          <Styled.ItemContainer key={item.fundingItemId}>
+            <Styled.ImageContainer>
+              <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
+            </Styled.ImageContainer>
+            <Styled.TextContainer>
+              <Styled.ItemName>{item.fundingName}</Styled.ItemName>
+              <Styled.ItemPrice>{item.fundingAmount}</Styled.ItemPrice>
+              <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
+            </Styled.TextContainer>
+          </Styled.ItemContainer>
+        ))
+      ) : (
+        <div>참여 중인 펀딩이 없어요</div>
+      )}
       {/* <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} /> */}
       {/* <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} /> */}
     </Layout>
