@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import CommonModal from '../../components/common/modal/CommonModal';
 import { useParticipantList } from '../../hooks/participate/useParticipantList';
+import { useCancelParticipateMutation } from '../../hooks/participate/useCancelParticipate';
+import { ParticipateListOutput } from '../../types/responses/fund';
 
 export default function List() {
   const { data, isError, isLoading } = useParticipantList();
+  const [clickedFunding, setClickedFunding] = useState<ParticipateListOutput>();
+  const [isCancelModal, setIsCancelModal] = useState<boolean>(false);
+  const [isCompleteModal, setIsCompleteModal] = useState<boolean>(false);
+  const cancelParticipate = useCancelParticipateMutation(() => setIsCompleteModal(true));
 
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
@@ -15,9 +21,15 @@ export default function List() {
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
       {data?.length ? (
         data.map((item) => (
-          <Styled.ItemContainer key={item.fundingItemId}>
+          <Styled.ItemContainer
+            key={item.fundingItemId}
+            onClick={() => {
+              setClickedFunding(item);
+              setIsCancelModal(true);
+            }}
+          >
             <Styled.ImageContainer>
-              <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
+              <Image src={item.fundingItemImg ?? AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
             </Styled.ImageContainer>
             <Styled.TextContainer>
               <Styled.ItemName>{item.fundingName}</Styled.ItemName>
@@ -29,8 +41,34 @@ export default function List() {
       ) : (
         <div>참여 중인 펀딩이 없어요</div>
       )}
-      {/* <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} /> */}
-      {/* <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} /> */}
+      {isCancelModal && (
+        <CommonModal
+          message={`'${clickedFunding?.fundingName}' 펀딩을\n취소하시겠습니까?`}
+          buttons={[
+            {
+              text: '예',
+              onClickButton: () => {
+                setIsCancelModal(false);
+                () =>
+                  cancelParticipate({
+                    fundingMemberId: clickedFunding?.fundingMemberId ?? 0,
+                    reason: '',
+                  });
+              },
+            },
+            {
+              text: '아니오',
+              onClickButton: () => setIsCancelModal(false),
+            },
+          ]}
+        />
+      )}
+      {isCompleteModal && (
+        <CommonModal
+          message={`취소가 완료되었습니다.`}
+          buttons={[{ text: '확인', onClickButton: () => setIsCompleteModal(false) }]}
+        />
+      )}
     </Layout>
   );
 }

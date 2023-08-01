@@ -46,3 +46,15 @@ export interface ParticipateListOutput {
   payment_status: 'ready' | 'fail';
   fundingItemId: number;
 }
+
+export interface ParticipateCancelInput {
+  fundingMemberId: number;
+  reason: string;
+}
+
+export interface ParticipateCancelOutput {
+  merchant_uid: string;
+  merchant_name: string;
+  amount: number;
+  cancelDate: string;
+}

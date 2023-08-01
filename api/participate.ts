@@ -1,6 +1,6 @@
 import { client } from '.';
-import { ParticipateErrorResponse, ParticipateListResponse, Response } from '../types';
-import { ParticipateInput, ParticipateListOutput } from '../types/responses/fund';
+import { ErrorResponse, ParticipateErrorResponse, ParticipateListResponse, Response } from '../types';
+import { ParticipateCancelInput, ParticipateCancelOutput, ParticipateInput } from '../types/responses/fund';
 
 export const postParticipate = async (participateBody: ParticipateInput) => {
   const { data } = await client.post<ParticipateErrorResponse>(`/funding/participateFunding`, participateBody);
@@ -16,4 +16,10 @@ export const fetchParticipateList = async (lastItemId?: number) => {
   );
 
   return lists;
+};
+
+export const postCancelParticipate = async (cancelBody: ParticipateCancelInput) => {
+  const { data } = await client.post<ErrorResponse<ParticipateCancelOutput>>(`/funding/cancel`, cancelBody);
+
+  return data;
 };

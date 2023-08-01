@@ -4,6 +4,7 @@ export const QUERY_KEY = {
   participate: 'participate',
   participateList: 'participateList',
   paymentList: 'paymentList',
+  cancel: 'cancel',
   newPay: 'newPay',
   accessToken: 'accessToken',
   signup: 'signup',
