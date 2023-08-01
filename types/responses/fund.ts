@@ -43,7 +43,7 @@ export interface ParticipateListOutput {
   merchantId: string;
   fundingItemImg: string;
   fundingDate: string;
-  payment_status: 'ready' | 'fail';
+  payment_status: 'ready' | 'fail' | 'cancel';
   fundingItemId: number;
 }
 

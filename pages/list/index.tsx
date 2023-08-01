@@ -13,13 +13,17 @@ export default function List() {
   const [clickedFunding, setClickedFunding] = useState<ParticipateListOutput>();
   const [isCancelModal, setIsCancelModal] = useState<boolean>(false);
   const [isCompleteModal, setIsCompleteModal] = useState<boolean>(false);
-  const cancelParticipate = useCancelParticipateMutation(() => setIsCompleteModal(true));
+  const cancelParticipate = useCancelParticipateMutation();
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
 
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
-      {data?.length ? (
+      {data ? (
         data.map((item) => (
           <Styled.ItemContainer
             key={item.fundingItemId}
@@ -29,12 +33,13 @@ export default function List() {
             }}
           >
             <Styled.ImageContainer>
-              <Image src={item.fundingItemImg ?? AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
+              <Image src={item.fundingItemImg ?? AirpodImg} width={80} height={80} alt="펀딩상품 이미지" priority />
             </Styled.ImageContainer>
             <Styled.TextContainer>
               <Styled.ItemName>{item.fundingName}</Styled.ItemName>
-              <Styled.ItemPrice>{item.fundingAmount}</Styled.ItemPrice>
+              <Styled.ItemPrice>내가 펀딩한 금액: {item.fundingAmount}원</Styled.ItemPrice>
               <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
+              <Styled.ItemDeadline>참여상태: {item.payment_status}</Styled.ItemDeadline>
             </Styled.TextContainer>
           </Styled.ItemContainer>
         ))
@@ -49,11 +54,13 @@ export default function List() {
               text: '예',
               onClickButton: () => {
                 setIsCancelModal(false);
-                () =>
-                  cancelParticipate({
+                cancelParticipate.mutate(
+                  {
                     fundingMemberId: clickedFunding?.fundingMemberId ?? 0,
                     reason: '',
-                  });
+                  },
+                  { onSuccess: () => setIsCompleteModal(true) }
+                );
               },
             },
             {
@@ -95,6 +102,7 @@ const Styled = {
   `,
   ItemContainer: styled.article`
     display: flex;
+    align-items: center;
 
     width: 30.8rem;
     margin-bottom: 2rem;
@@ -109,15 +117,14 @@ const Styled = {
     }
   `,
   ImageContainer: styled.div`
-    width: 7rem;
-    height: 7rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 1rem;
     margin-right: 2rem;
   `,
   TextContainer: styled.div`
     display: flex;
     flex-direction: column;
-    height: 6.2rem;
   `,
   ItemName: styled.h2`
     margin-bottom: 0.8rem;

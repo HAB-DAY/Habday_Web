@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Progress from '../../components/common/Progress';
-import { selectBoxImg } from '../../assets';
-import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
@@ -79,6 +77,12 @@ export default function Fund() {
         ) : (
           <Styled.Message>결제수단을 추가해주세요</Styled.Message>
         )}
+        <Styled.Check>
+          선물하실 금액은 목적금액 미달성시 다른 상품구매에
+          <br />
+          사용될 수 있습니다. 동의하시겠습니까?
+          <input type="checkbox" />
+        </Styled.Check>
       </Styled.Form>
     </Layout>
   );
@@ -99,7 +103,7 @@ const Styled = {
     min-width: 31.3rem;
     margin-top: 3rem;
   `,
-  Label: styled.label`
+  Label: styled.p`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -151,7 +155,6 @@ const Styled = {
     width: 100%;
     height: 3.9rem;
     margin-top: 1.15rem;
-    margin-bottom: 4.4rem;
     padding: 0.45rem 1.4rem;
     border-radius: 0.5rem;
     border: 0.1rem solid #8e8e8e;
@@ -174,5 +177,18 @@ const Styled = {
     margin-top: 0.8rem;
     margin-bottom: 4rem;
     color: #ff0000;
+  `,
+  Check: styled.span`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+    letter-spacing: 0.048rem;
+    margin-top: 2rem;
+    margin-bottom: 5.1rem;
   `,
 };

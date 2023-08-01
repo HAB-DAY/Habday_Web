@@ -10,8 +10,10 @@ export const postParticipate = async (participateBody: ParticipateInput) => {
 
 export const fetchParticipateList = async (lastItemId?: number) => {
   const {
-    data: { lists },
-  } = await client.get<ParticipateListResponse>(
+    data: {
+      data: { lists },
+    },
+  } = await client.get<Response<ParticipateListResponse>>(
     lastItemId ? `/funding/itemList/participated?lastItemId=${lastItemId}` : `/funding/itemList/participated`
   );
 
