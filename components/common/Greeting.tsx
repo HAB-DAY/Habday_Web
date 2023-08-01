@@ -42,6 +42,7 @@ const Styled = {
     align-items: center;
 
     width: 100%;
+    padding-top: 23.2rem;
   `,
   Emoji: styled.h1`
     text-align: center;
@@ -64,7 +65,6 @@ const Styled = {
 
     min-width: 5.2rem;
     height: 2.6rem;
-    margin-top: 23.2rem;
   `,
   Box: styled.div`
     width: 5.5rem;

@@ -18,9 +18,7 @@ function AxiosInterceptor({ children }: PropsWithChildren) {
 
   const requestIntercept = client.interceptors.request.use((config) => {
     if (config.headers && !config.headers['accessToken']) {
-      config.headers['accessToken'] = accessToken
-        ? `${accessToken}`
-        : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjWVJsWTJzRDdoYjZXZlhMVzJTVG9MZlg2QWtHa08xZUFKTlQ0cXhjdnNZIiwibmlja25hbWUiOiJjWVJsWTJzRDdoYjZXZlhMVzJTVG9MZlg2QWtHa08xZUFKTlQ0cXhjdnNZIiwiaWQiOjUsImV4cCI6MTY4OTgzNjcxOX0.cZkOxE60rPg9k0L4lkmE0VKrKwHMH1_3YnhhQ8yraSd0cMOPIuPDulx2945ziJt9UEwudFLoD1VLShzd3qc2tA';
+      config.headers['accessToken'] = accessToken ? `${accessToken}` : '';
 
       return config;
     }

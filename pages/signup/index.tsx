@@ -1,52 +1,56 @@
-import React, { useDebugValue, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
-import { useAccessToken } from '../../hooks/user/useSignUp';
+import { useAccessToken } from '../../hooks/user/useAccessToken';
+import { GetServerSidePropsContext } from 'next';
+import { useSignupForm } from '../../hooks/user/useSignupForm';
 
-export default function Signup() {
+interface codeProps {
+  code: string;
+}
+
+export default function Signup({ code }: codeProps) {
   const router = useRouter();
-  const [code, setCode] = useState<string>();
-  const { isLoading, isError } = useAccessToken(code ?? '');
-
-  useEffect(() => {
-    const code: string = router.query.code as string;
-    console.log(code);
-    setCode(code);
-  }, [router]);
+  const { isLoading, isError } = useAccessToken(code);
+  const { form, setSignupForm, submitForm } = useSignupForm(() => router.push('/detail'));
 
   if (isLoading) {
     return <div>로그인중..</div>;
   }
 
   if (isError) {
-    return <div>로그인중..</div>;
+    return <div>로그인 실패</div>;
   }
 
   return (
-    <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={() => router.push('/detail')}>
+    <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={submitForm}>
       <Styled.Title>추가정보를 입력해주세요</Styled.Title>
       <Styled.Form>
         <Styled.InputContainer>
           <Styled.Label>생년월일</Styled.Label>
-          <Styled.Input placeholder="6자리" />
+          <Styled.Input placeholder="6자리" onChange={(e) => setSignupForm({ birthday: e.target.value })} />
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>은행정보</Styled.Label>
-          <Styled.Select>
-            <option>국민</option>
-            <option>하나</option>
-            <option>신한</option>
+          <Styled.Select name="bankname" onChange={(e) => setSignupForm({ bankName: e.target.value })}>
+            <option value="국민">국민</option>
+            <option value="하나">하나</option>
+            <option value="신한">신한</option>
           </Styled.Select>
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>계좌번호</Styled.Label>
-          <Styled.Input placeholder="000-000-000-000" />
+          <Styled.Input onChange={(e) => setSignupForm({ accountNumber: e.target.value })} />
         </Styled.InputContainer>
         <Styled.Message>* 펀딩금액 입금을 위해 계좌정보를 정확히 입력해주세요</Styled.Message>
       </Styled.Form>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return { props: { code: context.query.code } };
 }
 
 const Styled = {

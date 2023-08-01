@@ -37,9 +37,9 @@ export default function Landing({ itemId }: ItemProps) {
     return <div>loading...</div>;
   }
 
-  if (isError || detail?.status === STATUS.FAILED) {
-    return <div>error! 존재하지 않는 펀딩입니다</div>;
-  }
+  // if (isError || detail?.status === STATUS.FAILED) {
+  //   return <div>error! 존재하지 않는 펀딩입니다</div>;
+  // }
 
   return detail?.status === STATUS.PROGRESS ? (
     <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>

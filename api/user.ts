@@ -9,6 +9,6 @@ export const fetchAccessToken = async (code: string) => {
 };
 
 export const updateUserProfile = async (input: SignupInput) => {
-  const data = await client.patch<SignupResponse>(`/save/memberProfile`, input);
+  const data = await client.put<SignupResponse>(`/save/memberProfile`, input);
   return data;
 };
