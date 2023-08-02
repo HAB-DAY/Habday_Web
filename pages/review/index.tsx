@@ -1,31 +1,27 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import Layout from '../../components/common/Layout';
-import Image from 'next/image';
 import { AirpodImg } from '../../assets';
-import Progress from '../../components/common/Progress';
-import priceFormatter from '../../util/priceFormatter';
-import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { fundingIdState } from '../../states/atom';
+import styled from 'styled-components';
+import priceFormatter from '../../util/priceFormatter';
+import { useReview } from '../../hooks/review/useReview';
 
-export default function Detail() {
-  const router = useRouter();
+export default function Review() {
   const itemId = useRecoilValue(fundingIdState);
-  const { detail, isError, isLoading } = useFundDetail(itemId);
+  const { review, isError, isLoading } = useReview(itemId);
 
   return (
-    <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>
+    <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Titles>
-        <Styled.Title>{detail?.hostName}님은</Styled.Title>
-        <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
-        <Styled.Title>를(을) 갖고싶어해요</Styled.Title>
+        <Styled.BoldTitle>{review?.title}</Styled.BoldTitle>
+        <Styled.Title>구매완료!</Styled.Title>
       </Styled.Titles>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
-            src={detail?.fundingItemImg ?? AirpodImg}
+            src={review?.confirmationImg ?? AirpodImg}
             alt="펀딩아이템 이미지"
             width={222}
             height={222}
@@ -36,9 +32,8 @@ export default function Detail() {
         </Styled.ImageContainer>
       </Styled.Images>
       <Styled.ProgressContainer>
-        <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
-        <Styled.ProgressAmount>￦ {priceFormatter(detail?.totalPrice ?? 0)}</Styled.ProgressAmount>
-        <Progress totalPrice={detail?.totalPrice ?? 0} goalPrice={detail?.goalPrice ?? 0} />
+        <Styled.ProgressTitle>달성 금액</Styled.ProgressTitle>
+        <Styled.ProgressAmount>🎉 ￦ {priceFormatter(review?.totalPrice ?? 0)} 🎉</Styled.ProgressAmount>
       </Styled.ProgressContainer>
     </Layout>
   );

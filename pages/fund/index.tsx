@@ -1,51 +1,88 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Progress from '../../components/common/Progress';
-import { selectBoxImg } from '../../assets';
-import Image from 'next/image';
 import priceFormatter from '../../util/priceFormatter';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { fundingIdState } from '../../states/atom';
+import { useParticipantForm } from '../../hooks/participate/useParticipantForm';
+import { usePaymentList } from '../../hooks/pay/usePayment';
+import { useFundDetail } from '../../hooks/fund/useFundDetail';
 
 export default function Fund() {
-  const [hostname, setHostname] = useState<string>('000');
-  const [buyername, setBuyername] = useState<string>('');
-  const [goalPrice, setGoalPrice] = useState<number>(700000);
-  const [totalPrice, setTotalPrice] = useState<number>(320000);
-  const [amount, setAmount] = useState<number>(goalPrice - totalPrice || 0);
-  const [message, setMessage] = useState<string>('');
+  const router = useRouter();
+
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail } = useFundDetail(itemId);
+
+  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(async () => {
+    router.push('/complete');
+  });
+  const { isError, isLoading, paymentList } = usePaymentList();
+
+  useEffect(() => {
+    paymentList.length && setParticipantForm({ paymentId: paymentList[0].paymentId });
+  }, [paymentList]);
+
   return (
-    <Layout buttons={['다음']}>
-      <Styled.Title>000 님에게</Styled.Title>
+    <Layout buttons={['다음']} onClickButton={submitPariticipant}>
+      <Styled.Title>{detail?.hostName} 님에게</Styled.Title>
       <Styled.Form>
         <Styled.Label>보내는 분 성함</Styled.Label>
-        <Styled.Input id="buyer" type="text" onChange={(e) => setBuyername(e.currentTarget.value)} />
+        <Styled.Input
+          value={participant.name}
+          id="buyer"
+          type="text"
+          onChange={(e) => setParticipantForm({ name: e.target.value })}
+        />
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>펀딩 금액</Styled.Label>
-        <Progress goalPrice={goalPrice} totalPrice={totalPrice} isPing amount={amount} />
+        <Progress
+          goalPrice={detail?.goalPrice ?? 0}
+          totalPrice={detail?.totalPrice ?? 0}
+          isPing
+          amount={participant.amount}
+        />
         <Styled.Input
           id="amount"
           type="number"
-          //max={`${goalPrice - totalPrice}`}
-          placeholder={`최대 ${priceFormatter(goalPrice - totalPrice)}원까지 가능해요`}
-          onChange={(e) => setAmount(parseInt(e.currentTarget.value))}
+          max={`${detail?.goalPrice ?? 0 - (detail?.totalPrice ?? 0)}`}
+          placeholder={`최대 ${priceFormatter(detail?.goalPrice ?? 0 - (detail?.totalPrice ?? 0))}원까지 가능해요`}
+          onChange={(e) => setParticipantForm({ amount: parseInt(e.target.value) })}
         />
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>응원 메시지</Styled.Label>
-        <Styled.Textarea />
-        <Styled.Maxline>{message.length || 0}/60</Styled.Maxline>
+        <Styled.Textarea
+          value={participant.message}
+          onChange={(e) => setParticipantForm({ message: e.target.value })}
+        />
+        <Styled.Maxline>{participant.message.length || 0}/60</Styled.Maxline>
       </Styled.Form>
       <Styled.Form>
         <Styled.Label>
           카드 결제
-          <Styled.AddCardButton>카드 추가</Styled.AddCardButton>
+          <Styled.AddCardButton onClick={() => router.push('/card')}>카드 추가</Styled.AddCardButton>
         </Styled.Label>
-        <Styled.Select>
-          <option>KB국민 9393</option>
-          <option>KB국민 9393</option>
-          <option>KB국민 9393</option>
-        </Styled.Select>
+        {paymentList.length ? (
+          <Styled.Select defaultValue={0}>
+            {paymentList.map(({ paymentId, paymentName }, index) => (
+              <option key={paymentId} onClick={() => setParticipantForm({ paymentId: paymentId })}>
+                {paymentName}
+              </option>
+            ))}
+          </Styled.Select>
+        ) : (
+          <Styled.Message>결제수단을 추가해주세요</Styled.Message>
+        )}
+        <Styled.Check>
+          선물하실 금액은 목적금액 미달성시 다른 상품구매에
+          <br />
+          사용될 수 있습니다. 동의하시겠습니까?
+          <input type="checkbox" />
+        </Styled.Check>
       </Styled.Form>
     </Layout>
   );
@@ -59,14 +96,14 @@ const Styled = {
     font-weight: 500;
     letter-spacing: -0.03rem;
   `,
-  Form: styled.form`
+  Form: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     min-width: 31.3rem;
     margin-top: 3rem;
   `,
-  Label: styled.label`
+  Label: styled.p`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -118,7 +155,6 @@ const Styled = {
     width: 100%;
     height: 3.9rem;
     margin-top: 1.15rem;
-    margin-bottom: 4.4rem;
     padding: 0.45rem 1.4rem;
     border-radius: 0.5rem;
     border: 0.1rem solid #8e8e8e;
@@ -136,5 +172,23 @@ const Styled = {
     background: #ececec;
     color: #444;
     pointer-events: none;
+  `,
+  Message: styled.div`
+    margin-top: 0.8rem;
+    margin-bottom: 4rem;
+    color: #ff0000;
+  `,
+  Check: styled.span`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+    letter-spacing: 0.048rem;
+    margin-top: 2rem;
+    margin-bottom: 5.1rem;
   `,
 };

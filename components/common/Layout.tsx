@@ -5,16 +5,20 @@ interface LayoutProps {
   children: React.ReactNode;
   buttons?: string[];
   link?: string;
+  onClickButton?: () => void;
+  onClickLeftButton?: () => void;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { children, buttons, link } = props;
+  const { children, buttons, link, onClickButton, onClickLeftButton } = props;
   return (
     <Styled.Root>
       <Styled.Main>{children}</Styled.Main>
       <Styled.Footer isButtons={buttons?.length === 2}>
-        {buttons && buttons?.length == 2 && <Styled.ButtonLeft>{buttons[1]}</Styled.ButtonLeft>}
-        {buttons && buttons?.length >= 1 && <Styled.Button>{buttons[0]}</Styled.Button>}
+        {buttons && buttons?.length == 2 && (
+          <Styled.ButtonLeft onClick={onClickLeftButton}>{buttons[1]}</Styled.ButtonLeft>
+        )}
+        {buttons && buttons?.length >= 1 && <Styled.Button onClick={onClickButton}>{buttons[0]}</Styled.Button>}
         {link && <Styled.Link>{link}</Styled.Link>}
       </Styled.Footer>
     </Styled.Root>
@@ -27,8 +31,9 @@ const Styled = {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
     min-width: 37.5rem;
-    min-height: 81.2rem;
+
     background: white;
   `,
   Main: styled.main`
@@ -53,7 +58,7 @@ const Styled = {
     text-align: center;
     color: white;
     font-size: 1.3rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.052rem;
     cursor: pointer;
   `,
@@ -66,7 +71,7 @@ const Styled = {
     text-align: center;
     color: black;
     font-size: 1.3rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.052rem;
     cursor: pointer;
   `,

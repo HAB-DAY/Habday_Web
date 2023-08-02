@@ -1,47 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Image from 'next/image';
 import { AirpodImg } from '../../assets';
 import CommonModal from '../../components/common/modal/CommonModal';
+import { useParticipantList } from '../../hooks/participate/useParticipantList';
+import { useCancelParticipateMutation } from '../../hooks/participate/useCancelParticipate';
+import { ParticipateListOutput } from '../../types/responses/fund';
 
 export default function List() {
+  const { data, isError, isLoading } = useParticipantList();
+  const [clickedFunding, setClickedFunding] = useState<ParticipateListOutput>();
+  const [isCancelModal, setIsCancelModal] = useState<boolean>(false);
+  const [isCompleteModal, setIsCompleteModal] = useState<boolean>(false);
+  const cancelParticipate = useCancelParticipateMutation();
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
-      <Styled.ItemContainer>
-        <Styled.ImageContainer>
-          <Image src={AirpodImg} width={70} height={70} alt="펀딩상품 이미지" priority />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>
-          <Styled.ItemName>펀딩 이름</Styled.ItemName>
-          <Styled.ItemPrice>펀딩 금액</Styled.ItemPrice>
-          <Styled.ItemDeadline>2023.02.03 ~ 2023.03.03</Styled.ItemDeadline>
-        </Styled.TextContainer>
-      </Styled.ItemContainer>
-      {/* <CommonModal message={`'은형의 Airpod MAx' 펀딩을\n취소하시겠습니까?`} buttons={['예', '아니오']} /> */}
-      <CommonModal message={`취소가 완료되었습니다.`} buttons={['확인']} />
+      {data ? (
+        data.map((item) => (
+          <Styled.ItemContainer
+            key={item.fundingItemId}
+            onClick={() => {
+              setClickedFunding(item);
+              setIsCancelModal(true);
+            }}
+          >
+            <Styled.ImageContainer>
+              <Image src={item.fundingItemImg ?? AirpodImg} width={80} height={80} alt="펀딩상품 이미지" priority />
+            </Styled.ImageContainer>
+            <Styled.TextContainer>
+              <Styled.ItemName>{item.fundingName}</Styled.ItemName>
+              <Styled.ItemPrice>내가 펀딩한 금액: {item.fundingAmount}원</Styled.ItemPrice>
+              <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
+              <Styled.ItemDeadline>참여상태: {item.payment_status}</Styled.ItemDeadline>
+            </Styled.TextContainer>
+          </Styled.ItemContainer>
+        ))
+      ) : (
+        <div>참여 중인 펀딩이 없어요</div>
+      )}
+      {isCancelModal && (
+        <CommonModal
+          message={`'${clickedFunding?.fundingName}' 펀딩을\n취소하시겠습니까?`}
+          buttons={[
+            {
+              text: '예',
+              onClickButton: () => {
+                setIsCancelModal(false);
+                cancelParticipate.mutate(
+                  {
+                    fundingMemberId: clickedFunding?.fundingMemberId ?? 0,
+                    reason: '',
+                  },
+                  { onSuccess: () => setIsCompleteModal(true) }
+                );
+              },
+            },
+            {
+              text: '아니오',
+              onClickButton: () => setIsCancelModal(false),
+            },
+          ]}
+        />
+      )}
+      {isCompleteModal && (
+        <CommonModal
+          message={`취소가 완료되었습니다.`}
+          buttons={[{ text: '확인', onClickButton: () => setIsCompleteModal(false) }]}
+        />
+      )}
     </Layout>
   );
 }
@@ -68,26 +102,29 @@ const Styled = {
   `,
   ItemContainer: styled.article`
     display: flex;
-    flex-direction: row;
     align-items: center;
-    min-width: 30.8rem;
-    margin-bottom: 2.5rem;
+
+    width: 30.8rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
     cursor: pointer;
     &:hover {
       opacity: 0.6;
       transition: 0.3s ease;
     }
+    &:last-child {
+      border-bottom: 0;
+    }
   `,
   ImageContainer: styled.div`
-    width: 7rem;
-    height: 7rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 1rem;
     margin-right: 2rem;
   `,
   TextContainer: styled.div`
     display: flex;
     flex-direction: column;
-    height: 6.2rem;
   `,
   ItemName: styled.h2`
     margin-bottom: 0.8rem;
