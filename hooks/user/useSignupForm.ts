@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SignupInput } from '../../types/responses/user';
-import { useSignupMutation } from './useSignup';
+import { useSignupMutation } from './useSignupMutation';
 
 export const useSignupForm = (onSuccessMutation: () => void) => {
   const [form, setForm] = useState<SignupInput>({
