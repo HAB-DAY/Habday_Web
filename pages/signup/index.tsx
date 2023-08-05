@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { useAccessToken } from '../../hooks/user/useAccessToken';
 import { GetServerSidePropsContext } from 'next';
 import { useSignupForm } from '../../hooks/user/useSignupForm';
-import { useRecoilValue } from 'recoil';
-import { accessTokenState, signupLogState } from '../../states/atom';
+import { useRecoilState } from 'recoil';
+import { signupLogState } from '../../states/atom';
 
 interface codeProps {
   code: string;
@@ -15,7 +15,7 @@ interface codeProps {
 export default function Signup({ code }: codeProps) {
   const router = useRouter();
   const { isLoading, isError } = useAccessToken(code);
-  const isSignup = useRecoilValue(signupLogState);
+  const [isSignup, setIsSignup] = useRecoilState(signupLogState);
   const {
     placeholder,
     banknames,
@@ -23,19 +23,22 @@ export default function Signup({ code }: codeProps) {
     submitForm,
     setAccountInput,
     form: { accountNumber },
-  } = useSignupForm(() => router.push('/detail'));
+  } = useSignupForm(() => {
+    router.push('/detail');
+    setIsSignup(true);
+  });
 
   useEffect(() => {
     if (isSignup) router.push('/detail');
   }, [isSignup]);
 
-  // if (isLoading) {
-  //   return <div>로그인중..</div>;
-  // }
+  if (isLoading) {
+    return <div>로그인중..</div>;
+  }
 
-  // if (isError) {
-  //   return <div>로그인 실패</div>;
-  // }
+  if (isError) {
+    return <div>로그인 실패</div>;
+  }
 
   return (
     <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={submitForm}>

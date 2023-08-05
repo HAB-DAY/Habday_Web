@@ -9,10 +9,10 @@ export const useCancelParticipateMutation = () => {
 
   return useMutation(postCancelParticipate, {
     onSuccess() {
-      queryClient.invalidateQueries([QUERY_KEY.cancel, QUERY_KEY.participateList]);
+      queryClient.invalidateQueries([QUERY_KEY.participateList]);
     },
-    onError({ msg }: ErrorResponse<ParticipateCancelOutput>) {
-      alert(msg);
+    onError() {
+      alert('이미 취소된 펀딩입니다.');
     },
   });
 };

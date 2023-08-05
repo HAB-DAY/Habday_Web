@@ -26,7 +26,7 @@ export default function List() {
       {data ? (
         data.map((item) => (
           <Styled.ItemContainer
-            key={item.fundingItemId}
+            key={item.fundingItemId + item.fundingAmount}
             onClick={() => {
               setClickedFunding(item);
               setIsCancelModal(true);
