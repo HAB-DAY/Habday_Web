@@ -81,5 +81,7 @@ const Styled = {
     text-align: center;
     font-size: 1.3rem;
     font-weight: 900;
+
+    text-decoration: underline;
   `,
 };

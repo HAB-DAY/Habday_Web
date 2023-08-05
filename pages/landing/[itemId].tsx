@@ -37,9 +37,9 @@ export default function Landing({ itemId }: ItemProps) {
     return <div>loading...</div>;
   }
 
-  // if (isError || detail?.status === STATUS.FAILED) {
-  //   return <div>error! 존재하지 않는 펀딩입니다</div>;
-  // }
+  if (isError || detail?.status === STATUS.FAILED) {
+    return <div>error! 존재하지 않는 펀딩입니다</div>;
+  }
 
   return detail?.status === STATUS.PROGRESS ? (
     <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
@@ -56,19 +56,3 @@ export async function getServerSideProps({ params }: ParamProps) {
   const itemId = params.itemId;
   return { props: { itemId } };
 }
-
-const Styled = {
-  Emoji: styled.h1`
-    margin-top: 31.3rem;
-    text-align: center;
-    text-shadow: 0rem 0.4rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
-    font-size: 12rem;
-    font-weight: 500;
-  `,
-  Message: styled.h2`
-    margin-top: 3.4rem;
-    text-align: center;
-    font-size: 2.1rem;
-    font-weight: 500;
-  `,
-};

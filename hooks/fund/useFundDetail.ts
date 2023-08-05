@@ -7,7 +7,7 @@ import { QUERY_KEY } from '..';
 export const useFundDetail = (itemId: number) => {
   const { isLoading, isError, data } = useQuery([QUERY_KEY.fundDetail], () => fetchFundDetail(itemId), {
     onSuccess: (data) => {
-      console.log(data);
+      //console.log(data);
     },
   });
 

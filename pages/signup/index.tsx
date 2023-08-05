@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import { useRouter } from 'next/router';
 import { useAccessToken } from '../../hooks/user/useAccessToken';
 import { GetServerSidePropsContext } from 'next';
 import { useSignupForm } from '../../hooks/user/useSignupForm';
+import { useRecoilValue } from 'recoil';
+import { accessTokenState, signupLogState } from '../../states/atom';
 
 interface codeProps {
   code: string;
@@ -13,15 +15,27 @@ interface codeProps {
 export default function Signup({ code }: codeProps) {
   const router = useRouter();
   const { isLoading, isError } = useAccessToken(code);
-  const { form, setSignupForm, submitForm } = useSignupForm(() => router.push('/detail'));
+  const isSignup = useRecoilValue(signupLogState);
+  const {
+    placeholder,
+    banknames,
+    setSignupForm,
+    submitForm,
+    setAccountInput,
+    form: { accountNumber },
+  } = useSignupForm(() => router.push('/detail'));
 
-  if (isLoading) {
-    return <div>로그인중..</div>;
-  }
+  useEffect(() => {
+    if (isSignup) router.push('/detail');
+  }, [isSignup]);
 
-  if (isError) {
-    return <div>로그인 실패</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로그인중..</div>;
+  // }
+
+  // if (isError) {
+  //   return <div>로그인 실패</div>;
+  // }
 
   return (
     <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={submitForm}>
@@ -33,15 +47,27 @@ export default function Signup({ code }: codeProps) {
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>은행정보</Styled.Label>
-          <Styled.Select name="bankname" onChange={(e) => setSignupForm({ bankName: e.target.value })}>
-            <option value="국민">국민</option>
-            <option value="하나">하나</option>
-            <option value="신한">신한</option>
+          <Styled.Select
+            name="bankname"
+            onChange={(e) => {
+              setSignupForm({ bankName: e.target.value, accountNumber: '' });
+            }}
+          >
+            {banknames.map((bankname) => (
+              <option key={bankname} value={bankname}>
+                {bankname}
+              </option>
+            ))}
           </Styled.Select>
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>계좌번호</Styled.Label>
-          <Styled.Input onChange={(e) => setSignupForm({ accountNumber: e.target.value })} />
+          <Styled.Input
+            type="text"
+            placeholder={placeholder}
+            onChange={(e) => setAccountInput(e.target.value)}
+            value={accountNumber}
+          />
         </Styled.InputContainer>
         <Styled.Message>* 펀딩금액 입금을 위해 계좌정보를 정확히 입력해주세요</Styled.Message>
       </Styled.Form>

@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { useRouter } from 'next/router';
+import axios from 'axios';
 import { PropsWithChildren, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { accessTokenState } from '../states/atom';
@@ -13,7 +12,6 @@ const client = axios.create({
 });
 
 function AxiosInterceptor({ children }: PropsWithChildren) {
-  const router = useRouter();
   const accessToken = useRecoilValue(accessTokenState);
 
   const requestIntercept = client.interceptors.request.use((config) => {

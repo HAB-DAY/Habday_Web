@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
 import priceFormatter from '../../util/priceFormatter';
+import { ArrowImg } from '../../assets';
 
 interface ProgressProps {
   totalPrice: number;
@@ -27,9 +28,10 @@ export default function Progress(props: ProgressProps) {
             blurDataURL="assets/arrow.svg"
             priority
           /> */}
+          <ArrowImg />
         </Styled.Ping>
       )}
-      <Styled.Progressbar value={(totalPrice / goalPrice) * 100} max={100} />
+      <Styled.Progressbar value={((totalPrice / goalPrice) * 100).toString()} max={100} />
       <Styled.ProgressLabel>총 {priceFormatter(goalPrice)}원</Styled.ProgressLabel>
     </Styled.Root>
   );

@@ -17,5 +17,5 @@ export const useAccessToken = (code: string) => {
     data && setAccessToken(data.accessToken);
   }, []);
 
-  return { isLoading, isError };
+  return { accessToken, isLoading, isError };
 };
