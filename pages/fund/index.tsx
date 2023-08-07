@@ -16,7 +16,7 @@ export default function Fund() {
   const itemId = useRecoilValue(fundingIdState);
   const { detail } = useFundDetail(itemId);
 
-  const { participant, setParticipantForm, submitPariticipant } = useParticipantForm(async () => {
+  const { participant, setParticipantForm, submitPariticipant, toggleAgree } = useParticipantForm(async () => {
     router.push('/complete');
   });
   const { isError, isLoading, paymentList } = usePaymentList();
@@ -81,7 +81,7 @@ export default function Fund() {
           선물하실 금액은 목적금액 미달성시 다른 상품구매에
           <br />
           사용될 수 있습니다. 동의하시겠습니까?
-          <input type="checkbox" />
+          <input type="checkbox" onClick={toggleAgree} />
         </Styled.Check>
       </Styled.Form>
     </Layout>

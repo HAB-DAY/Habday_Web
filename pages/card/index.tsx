@@ -9,7 +9,7 @@ export default function Card() {
   const router = useRouter();
   const [isModal, setIsModal] = useState<boolean>(false);
 
-  const { newPay, setNewPayForm, submitNewPay } = useNewPayForm(
+  const { newPay, setNewPayForm, submitNewPay, setCardWithHyphen, setExpiryWithHyphen } = useNewPayForm(
     () => router.push('/fund'),
     () => setIsModal(true)
   );
@@ -26,16 +26,18 @@ export default function Card() {
           <Styled.Label htmlFor="card-number">카드번호</Styled.Label>
           <Styled.Input
             id="card-number"
-            placeholder="0000 - 0000 - 0000 - 0000"
-            onChange={(e) => setNewPayForm({ card_number: e.target.value })}
+            value={newPay.card_number}
+            placeholder="0000-0000-0000-0000"
+            onChange={(e) => setCardWithHyphen(e.currentTarget.value)}
           />
         </Styled.InputContainer>
         <Styled.InputContainer>
-          <Styled.Label htmlFor="card-expiry">카드 유효기간</Styled.Label>
+          <Styled.Label htmlFor="card-expiry">유효기간</Styled.Label>
           <Styled.Input
             id="card-expiry"
-            placeholder="YYYY - MM"
-            onChange={(e) => setNewPayForm({ expiry: e.target.value })}
+            placeholder="YYYY-MM"
+            value={newPay.expiry}
+            onChange={(e) => setExpiryWithHyphen(e.target.value)}
           />
         </Styled.InputContainer>
         <Styled.InputContainer>
@@ -54,7 +56,7 @@ export default function Card() {
           <Styled.Label htmlFor="card-name">카드별칭</Styled.Label>
           <Styled.Input
             id="card-name"
-            placeholder="최대 6자리"
+            placeholder="최대 10자리"
             onChange={(e) => setNewPayForm({ payment_name: e.target.value })}
           />
         </Styled.InputContainer>

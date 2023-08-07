@@ -40,7 +40,7 @@ export const participantState = atom<ParticipateInput>({
     message: '',
     fundingDate: 'YYYY-MM-DD',
     amount: 0,
-    paymentId: 0,
+    paymentId: -99,
     buyer_name: '',
     buyer_tel: '',
     buyer_email: '',

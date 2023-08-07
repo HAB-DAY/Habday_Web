@@ -49,33 +49,12 @@ export const useSignupForm = (onSuccessMutation: () => void) => {
       assignFormat: `$1-$2-$3`,
       maxLength: 13,
     },
-    기업은행: {
-      placeholder: 'XXX-XXXXXX-XX-XXX',
-      accountFormat: /^\d{3}-\d{6}-\d{2}-\d{3}$/,
-      hyphenFormat: /^(\d{0,3})(\d{0,6})(\d{0,2})(\d{0,3})$/g,
-      assignFormat: `$1-$2-$3-$4`,
-      maxLength: 14,
-    },
     하나: {
       placeholder: 'XXX-XXXXX-XXXXX',
       accountFormat: /^\d{3}-\d{6}-\d{5}$/,
       hyphenFormat: /^(\d{0,3})(\d{0,6})(\d{0,5})$/g,
       assignFormat: `$1-$2-$3`,
       maxLength: 14,
-    },
-    대구은행: {
-      placeholder: 'XXX-XX-XXXXXX-X',
-      accountFormat: /^\d{3}-\d{2}-\d{6}-\d{1}$/,
-      hyphenFormat: /^(\d{0,3})(\d{0,2})(\d{0,6})(\d{0,1})$/g,
-      assignFormat: `$1-$2-$3-$4`,
-      maxLength: 12,
-    },
-    부산은행: {
-      placeholder: 'XXX-XXXX-XXXX-XX',
-      accountFormat: /^\d{3}-\d{4}-\d{4}-\d{2}$/,
-      hyphenFormat: /^(\d{0,3})(\d{0,4})(\d{0,4})(\d{0,2})$/g,
-      assignFormat: `$1-$2-$3-$4`,
-      maxLength: 13,
     },
   };
 

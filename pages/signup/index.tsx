@@ -14,7 +14,7 @@ interface codeProps {
 
 export default function Signup({ code }: codeProps) {
   const router = useRouter();
-  const { isLoading, isError } = useAccessToken(code);
+  const { accessToken, isLoading, isError } = useAccessToken(code);
   const [isSignup, setIsSignup] = useRecoilState(signupLogState);
   const {
     placeholder,
@@ -30,7 +30,7 @@ export default function Signup({ code }: codeProps) {
 
   useEffect(() => {
     if (isSignup) router.push('/detail');
-  }, [isSignup]);
+  }, [accessToken]);
 
   if (isLoading) {
     return <div>로그인중..</div>;

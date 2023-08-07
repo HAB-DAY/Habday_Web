@@ -8,13 +8,15 @@ import priceFormatter from '../../util/priceFormatter';
 import { useRecoilValue } from 'recoil';
 import { fundingIdState } from '../../states/atom';
 import { useFundDetail } from '../../hooks/fund/useFundDetail';
+import { useRouter } from 'next/router';
 
 export default function Complete() {
+  const router = useRouter();
   const itemId = useRecoilValue(fundingIdState);
   const { detail, isError, isLoading } = useFundDetail(itemId);
 
   return (
-    <Layout buttons={['친구에게 알려주기', '내 펀딩 만들러가기']}>
+    <Layout buttons={['참여내역 보러가기', '내 펀딩 만들러가기']} onClickButton={() => router.push('/list')}>
       <Styled.Titles>
         <Styled.Title>펀딩참여 완료!</Styled.Title>
         <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
