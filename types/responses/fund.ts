@@ -10,6 +10,7 @@ export interface DetailOutput {
   percentage: number;
   status: StatusType;
   hostName: string;
+  confirmation: boolean;
   fundingParticipantList: ParticipantType[];
 }
 
