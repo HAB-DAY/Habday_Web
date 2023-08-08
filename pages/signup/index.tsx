@@ -29,7 +29,7 @@ export default function Signup({ code }: codeProps) {
   });
 
   useEffect(() => {
-    if (isSignup) router.push('/detail');
+    if (isSignup && accessToken) router.push('/detail');
   }, [accessToken]);
 
   if (isLoading) {
@@ -46,7 +46,7 @@ export default function Signup({ code }: codeProps) {
       <Styled.Form>
         <Styled.InputContainer>
           <Styled.Label>생년월일</Styled.Label>
-          <Styled.Input placeholder="6자리" onChange={(e) => setSignupForm({ birthday: e.target.value })} />
+          <Styled.Input type="date" onChange={(e) => setSignupForm({ birthday: e.target.value })} />
         </Styled.InputContainer>
         <Styled.InputContainer>
           <Styled.Label>은행정보</Styled.Label>

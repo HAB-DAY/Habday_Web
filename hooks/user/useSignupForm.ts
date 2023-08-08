@@ -66,8 +66,6 @@ export const useSignupForm = (onSuccessMutation: () => void) => {
       .replace(hyphenFormat, assignFormat)
       .replace(/\-{1,2}$/g, '');
 
-    console.log(formattedInput);
-
     setForm({ ...form, accountNumber: formattedInput });
   };
 
@@ -80,8 +78,6 @@ export const useSignupForm = (onSuccessMutation: () => void) => {
       alert(
         `계좌번호 형식이 올바르지 않습니다.\n다시 입력해주세요.('-'포함 숫자 ${bankList[form.bankName].maxLength}자리)`
       );
-    } else if (!/^\d{6}$/.test(form.birthday)) {
-      alert('생년월일 6자리를 입력해주세요.');
     } else {
       submitMutation.mutate(form, {
         onSuccess: onSuccessMutation,

@@ -8,7 +8,7 @@ export const postParticipate = async (participateBody: ParticipateInput) => {
   return data;
 };
 
-export const fetchParticipateList = async (lastItemId?: number) => {
+export const fetchParticipateList = async (lastItemId?: string) => {
   const {
     data: {
       data: { lists },

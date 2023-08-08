@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Image from 'next/image';
@@ -7,6 +7,7 @@ import CommonModal from '../../components/common/modal/CommonModal';
 import { useParticipantList } from '../../hooks/participate/useParticipantList';
 import { useCancelParticipateMutation } from '../../hooks/participate/useCancelParticipate';
 import { ParticipateListOutput } from '../../types/responses/fund';
+import Progress from '../../components/common/Progress';
 
 export default function List() {
   const { data, isError, isLoading } = useParticipantList();
@@ -26,7 +27,7 @@ export default function List() {
       {data ? (
         data.map((item) => (
           <Styled.ItemContainer
-            key={item.fundingItemId + item.fundingAmount}
+            key={item.merchantId}
             onClick={() => {
               setClickedFunding(item);
               setIsCancelModal(true);
@@ -35,11 +36,10 @@ export default function List() {
             <Styled.ImageContainer>
               <Image src={item.fundingItemImg ?? AirpodImg} width={80} height={80} alt="펀딩상품 이미지" priority />
             </Styled.ImageContainer>
-            <Styled.TextContainer>
+            <Styled.TextContainer textdecoration={item.payment_status === 'cancel'}>
               <Styled.ItemName>{item.fundingName}</Styled.ItemName>
               <Styled.ItemPrice>내가 펀딩한 금액: {item.fundingAmount}원</Styled.ItemPrice>
               <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
-              <Styled.ItemDeadline>참여상태: {item.payment_status}</Styled.ItemDeadline>
             </Styled.TextContainer>
           </Styled.ItemContainer>
         ))
@@ -122,9 +122,11 @@ const Styled = {
     border-radius: 1rem;
     margin-right: 2rem;
   `,
-  TextContainer: styled.div`
+  TextContainer: styled.div<{ textdecoration: boolean }>`
     display: flex;
     flex-direction: column;
+
+    text-decoration: ${({ textdecoration }) => textdecoration && 'line-through'};
   `,
   ItemName: styled.h2`
     margin-bottom: 0.8rem;
