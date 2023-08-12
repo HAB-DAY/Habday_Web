@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import styled from 'styled-components';
-import { ArrowImg } from '../../assets';
+import { ArrowWhiteImg } from '../../assets';
 
 interface GreetingProps {
   message: string;
@@ -16,16 +16,15 @@ export default function Greeting(props: GreetingProps) {
       {isPing && (
         <Styled.Ping>
           <Styled.Box>click !</Styled.Box>
-          {/* <Image
-            src={PingArrowImg}
+          <Image
+            src={ArrowWhiteImg}
             alt="툴팁화살표 이미지"
             width={10}
             height={6}
             placeholder="blur"
             blurDataURL="assets/arrow.svg"
             priority
-          /> */}
-          <ArrowImg isWhite />
+          />
         </Styled.Ping>
       )}
       <Styled.Emoji onClick={onClickIcon}>🎁</Styled.Emoji>

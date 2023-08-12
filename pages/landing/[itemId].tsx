@@ -58,7 +58,7 @@ export default function Landing({ itemId }: ItemProps) {
   }
 
   return (
-    <Layout buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
+    <Layout isNaver buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
       <Greeting message={`${detail?.hostName}님의 펀딩에 참여해보세요!`} />
     </Layout>
   );

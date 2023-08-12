@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NaverImg } from '../../assets';
+import Image from 'next/image';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -7,10 +9,11 @@ interface LayoutProps {
   link?: string;
   onClickButton?: () => void;
   onClickLeftButton?: () => void;
+  isNaver?: boolean;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { children, buttons, link, onClickButton, onClickLeftButton } = props;
+  const { children, buttons, link, onClickButton, onClickLeftButton, isNaver } = props;
   return (
     <Styled.Root>
       <Styled.Main>{children}</Styled.Main>
@@ -18,7 +21,12 @@ export default function Layout(props: LayoutProps) {
         {buttons && buttons?.length == 2 && (
           <Styled.ButtonLeft onClick={onClickLeftButton}>{buttons[1]}</Styled.ButtonLeft>
         )}
-        {buttons && buttons?.length >= 1 && <Styled.Button onClick={onClickButton}>{buttons[0]}</Styled.Button>}
+        {buttons && buttons?.length >= 1 && (
+          <Styled.Button isNaver={isNaver} onClick={onClickButton}>
+            {isNaver && <Image alt="네이버 로고" src={NaverImg} height={42} width={42} />}
+            {buttons[0]}
+          </Styled.Button>
+        )}
         {link && <Styled.Link>{link}</Styled.Link>}
       </Styled.Footer>
     </Styled.Root>
@@ -50,11 +58,14 @@ const Styled = {
     min-width: 32rem;
     margin-bottom: 5.4rem;
   `,
-  Button: styled.button`
+  Button: styled.button<{ isNaver?: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 5.2rem;
     border-radius: 0.6rem;
-    background: black;
+    background: ${({ isNaver }) => (isNaver ? '#03c75a' : 'black')};
     text-align: center;
     color: white;
     font-size: 1.3rem;

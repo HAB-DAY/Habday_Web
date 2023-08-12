@@ -7,7 +7,6 @@ import CommonModal from '../../components/common/modal/CommonModal';
 import { useParticipantList } from '../../hooks/participate/useParticipantList';
 import { useCancelParticipateMutation } from '../../hooks/participate/useCancelParticipate';
 import { ParticipateListOutput } from '../../types/responses/fund';
-import Progress from '../../components/common/Progress';
 
 export default function List() {
   const { data, isError, isLoading } = useParticipantList();
@@ -25,7 +24,7 @@ export default function List() {
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
       {data ? (
-        data.map((item) => (
+        data.slice(0, 5).map((item) => (
           <Styled.ItemContainer
             key={item.merchantId}
             onClick={() => {
@@ -46,6 +45,7 @@ export default function List() {
       ) : (
         <div>참여 중인 펀딩이 없어요</div>
       )}
+      <button>더보기</button>
       {isCancelModal && (
         <CommonModal
           message={`'${clickedFunding?.fundingName}' 펀딩을\n취소하시겠습니까?`}
@@ -57,7 +57,7 @@ export default function List() {
                 cancelParticipate.mutate(
                   {
                     fundingMemberId: clickedFunding?.fundingMemberId ?? 0,
-                    reason: '',
+                    reason: '사용자 요청 결제 취소',
                   },
                   { onSuccess: () => setIsCompleteModal(true) }
                 );
