@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { accessTokenState } from '../states/atom';
 
 // apis
-export const BASE_URL = process.env.NEXT_PUBLIC_END ?? '';
+export const BASE_URL = process.env.NEXT_PUBLIC_END;
 
 const client = axios.create({
   baseURL: BASE_URL,
