@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
 import Layout from '../../components/common/Layout';
 import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { useRouter } from 'next/router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { fundingIdState } from '../../states/atom';
 import Greeting from '../../components/common/Greeting';
 
@@ -49,7 +48,7 @@ export default function Landing({ itemId }: ItemProps) {
     );
   }
 
-  if (detail?.confirmation) {
+  if (detail?.isConfirmation) {
     return (
       <Layout>
         <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={() => router.push('/review')} />
