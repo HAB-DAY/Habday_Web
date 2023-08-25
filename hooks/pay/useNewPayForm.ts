@@ -1,7 +1,7 @@
 import { NewPayInput } from '../../types/responses/pay';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { newPayState } from '../../states/atom';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { postNewPay } from '../../api/pay';
 
 type FromListType = {

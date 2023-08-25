@@ -27,7 +27,7 @@ export default function Layout(props: LayoutProps) {
             {buttons[0]}
           </Styled.Button>
         )}
-        {link && <Styled.Link>{link}</Styled.Link>}
+        {link && <Styled.Link href="/list">{link}</Styled.Link>}
       </Styled.Footer>
     </Styled.Root>
   );

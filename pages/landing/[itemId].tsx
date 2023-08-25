@@ -40,18 +40,18 @@ export default function Landing({ itemId }: ItemProps) {
     return <div>error! 존재하지 않는 펀딩입니다</div>;
   }
 
-  if (detail?.status === STATUS.SUCCESS) {
-    return (
-      <Layout link="참여이력 보러가기">
-        <Greeting message="펀딩에 성공했어요, 감사합니다!" />
-      </Layout>
-    );
-  }
-
   if (detail?.isConfirmation) {
     return (
       <Layout>
         <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={() => router.push('/review')} />
+      </Layout>
+    );
+  }
+
+  if (detail?.status === STATUS.SUCCESS) {
+    return (
+      <Layout link="참여이력 보러가기">
+        <Greeting message="펀딩에 성공했어요, 감사합니다!" />
       </Layout>
     );
   }
