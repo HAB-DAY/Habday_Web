@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/common/Layout';
 import Image from 'next/image';
@@ -8,12 +8,18 @@ import priceFormatter from '../../util/priceFormatter';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { useFundDetail } from '../../hooks/fund/useFundDetail';
-import { fundingIdState } from '../../states/atom';
+import { fundingIdState, signupLogState } from '../../states/atom';
 
 export default function Detail() {
   const router = useRouter();
   const itemId = useRecoilValue(fundingIdState);
   const { detail, isError, isLoading } = useFundDetail(itemId);
+  const signupStat = useRecoilValue(signupLogState);
+
+  useEffect(() => {
+    if (!signupStat) router.push('/signup');
+    if (detail?.isConfirmation) router.push('/review');
+  }, [detail]);
 
   return (
     <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>

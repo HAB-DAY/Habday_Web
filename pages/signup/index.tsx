@@ -14,7 +14,7 @@ interface codeProps {
 
 export default function Signup({ code }: codeProps) {
   const router = useRouter();
-  const { accessToken, isLoading, isError } = useAccessToken(code);
+  //const { accessToken, isLoading, isError } = useAccessToken(code);
   const [isSignup, setIsSignup] = useRecoilState(signupLogState);
   const {
     placeholder,
@@ -28,17 +28,17 @@ export default function Signup({ code }: codeProps) {
     setIsSignup(true);
   });
 
-  useEffect(() => {
-    if (isSignup && accessToken) router.push('/detail');
-  }, [accessToken]);
+  // useEffect(() => {
+  //   if (isSignup && accessToken) router.push('/detail');
+  // }, [accessToken]);
 
-  if (isLoading) {
-    return <div>로그인중..</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로그인중..</div>;
+  // }
 
-  if (isError) {
-    return <div>로그인 실패</div>;
-  }
+  // if (isError) {
+  //   return <div>로그인 실패</div>;
+  // }
 
   return (
     <Layout buttons={['가입하고 펀딩참여하기']} onClickButton={submitForm}>

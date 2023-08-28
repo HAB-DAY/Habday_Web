@@ -43,7 +43,7 @@ export default function Landing({ itemId }: ItemProps) {
   if (detail?.isConfirmation) {
     return (
       <Layout>
-        <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={() => router.push('/review')} />
+        <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={onClickLogin} />
       </Layout>
     );
   }
