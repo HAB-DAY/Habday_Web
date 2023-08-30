@@ -34,6 +34,7 @@ export default function Review() {
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>달성 금액</Styled.ProgressTitle>
         <Styled.ProgressAmount>🎉 ￦ {priceFormatter(review?.totalPrice ?? 0)} 🎉</Styled.ProgressAmount>
+        <Styled.Message>{review?.message}</Styled.Message>
       </Styled.ProgressContainer>
     </Layout>
   );
@@ -93,5 +94,16 @@ const Styled = {
     font-size: 2.4rem;
     font-weight: 500;
     letter-spacing: -0.03rem;
+  `,
+  Message: styled.p`
+    width: 100%;
+    height: 17.5rem;
+    padding: 1rem 1.4rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #8e8e8e;
+    font-size: 1.4rem;
+    line-height: 3rem;
+    color: #444;
+    resize: none;
   `,
 };

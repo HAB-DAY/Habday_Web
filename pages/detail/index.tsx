@@ -9,17 +9,26 @@ import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { fundingIdState, signupLogState } from '../../states/atom';
+import { useAccessToken } from '../../hooks/user/useAccessToken';
+import { GetServerSidePropsContext } from 'next';
 
-export default function Detail() {
+interface codeProps {
+  code: string;
+}
+
+export default function Detail({ code }: codeProps) {
   const router = useRouter();
   const itemId = useRecoilValue(fundingIdState);
-  const { detail, isError, isLoading } = useFundDetail(itemId);
+  const { detail } = useFundDetail(itemId);
+  const { accessToken, isLoading } = useAccessToken(code);
   const signupStat = useRecoilValue(signupLogState);
 
   useEffect(() => {
-    if (!signupStat) router.push('/signup');
-    if (detail?.isConfirmation) router.push('/review');
-  }, [detail]);
+    if (accessToken && !signupStat) router.push('/signup');
+    if (accessToken && detail?.isConfirmation) router.push('/review');
+  }, [detail, accessToken]);
+
+  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>
@@ -48,6 +57,10 @@ export default function Detail() {
       </Styled.ProgressContainer>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return { props: { code: context.query.code ?? '' } };
 }
 
 const Styled = {
