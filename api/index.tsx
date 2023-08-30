@@ -33,7 +33,7 @@ function AxiosInterceptor({ children }: PropsWithChildren) {
       console.log(error);
       if (error.response.status === 401) {
         alert('로그인 후 이용해 주세요');
-        router.replace('/login');
+        //router.replace('/login');
       }
       return Promise.reject(error);
     }

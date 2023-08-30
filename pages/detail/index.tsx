@@ -24,9 +24,9 @@ export default function Detail({ code }: codeProps) {
   const signupStat = useRecoilValue(signupLogState);
 
   useEffect(() => {
-    if (accessToken && !signupStat) router.push('/signup');
-    if (accessToken && detail?.isConfirmation) router.push('/review');
-  }, [detail, accessToken]);
+    if (!signupStat) router.push('/signup');
+    else if (detail?.isConfirmation) router.push('/review');
+  }, [detail]);
 
   if (isLoading) return <div>로딩중...</div>;
 

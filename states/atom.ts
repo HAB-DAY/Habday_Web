@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { ParticipateInput } from '../types/responses/fund';
+import { ParticipateInput, ParticipateListOutput } from '../types/responses/fund';
 import { NewPayInput, PaymentType } from '../types/responses/pay';
 import { recoilPersist } from 'recoil-persist';
 
@@ -70,5 +70,21 @@ export const newPayState = atom<NewPayInput>({
     expiry: '',
     birth: '',
     pwd_2digit: '',
+  },
+});
+
+export const clickedFundingState = atom<ParticipateListOutput>({
+  key: 'clickedFundingState',
+  default: {
+    creatorName: '',
+    fundingAmount: 0,
+    fundingStatus: 'PROGRESS',
+    fundingMemberId: 0,
+    fundingName: '',
+    merchantId: '',
+    fundingItemImg: '',
+    fundingDate: '',
+    payment_status: 'ready',
+    fundingItemId: 0,
   },
 });
