@@ -11,7 +11,7 @@ export const useAccessToken = (code: string) => {
 
   useEffect(() => {
     data && setAccessToken(data.accessToken);
-  }, []);
+  }, [code]);
 
   return { accessToken, isLoading, isError };
 };
