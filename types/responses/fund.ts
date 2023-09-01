@@ -46,6 +46,9 @@ export interface ParticipateListOutput {
   fundingDate: string;
   payment_status: 'ready' | 'fail' | 'cancel';
   fundingItemId: number;
+  startDate: string;
+  finishDate: string;
+  fundDetail: string;
 }
 
 export interface ParticipateCancelInput {

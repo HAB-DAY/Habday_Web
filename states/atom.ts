@@ -86,5 +86,8 @@ export const clickedFundingState = atom<ParticipateListOutput>({
     fundingDate: '',
     payment_status: 'ready',
     fundingItemId: 0,
+    startDate: '',
+    finishDate: '',
+    fundDetail: '',
   },
 });

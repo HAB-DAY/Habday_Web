@@ -23,9 +23,9 @@ export default function List() {
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
       <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
-      {data && data.filter((item) => item.payment_status !== 'cancel').length ? (
+      {data?.length ? (
         data
-          .filter((item) => item.payment_status !== 'cancel')
+          //.filter((item) => item.payment_status !== 'cancel')
           .map((item) => (
             <Styled.ItemContainer
               key={item.merchantId}
@@ -39,7 +39,9 @@ export default function List() {
               </Styled.ImageContainer>
               <Styled.TextContainer>
                 <Styled.ItemName>{item.fundingName}</Styled.ItemName>
-                <Styled.ItemPrice>내가 펀딩한 금액: {item.fundingAmount}원</Styled.ItemPrice>
+                <Styled.ItemPrice>
+                  내가 펀딩한 금액: {item.fundingAmount}원 {item.payment_status === 'cancel' && '(취소)'}
+                </Styled.ItemPrice>
                 <Styled.ItemDeadline>{item.fundingDate}</Styled.ItemDeadline>
               </Styled.TextContainer>
             </Styled.ItemContainer>

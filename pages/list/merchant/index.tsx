@@ -13,8 +13,18 @@ import { useRouter } from 'next/router';
 
 export default function Merchant() {
   const router = useRouter();
-  const { fundingName, fundingItemImg, fundingAmount, fundingMemberId, fundingDate, fundingStatus } =
-    useRecoilValue(clickedFundingState);
+  const {
+    fundingName,
+    fundingItemImg,
+    fundingAmount,
+    fundingMemberId,
+    fundingDate,
+    fundingStatus,
+    startDate,
+    finishDate,
+    fundDetail,
+    payment_status,
+  } = useRecoilValue(clickedFundingState);
 
   const cancelParticipate = useCancelParticipateMutation();
 
@@ -22,7 +32,7 @@ export default function Merchant() {
   const [isCompleteModal, setIsCompleteModal] = useState<boolean>(false);
 
   return (
-    <Layout buttons={['참여 취소하기']} onClickButton={() => setIsCancelModal(true)}>
+    <Layout buttons={payment_status !== 'cancel' ? ['참여 취소하기'] : []} onClickButton={() => setIsCancelModal(true)}>
       <Styled.Images>
         <Styled.ImageContainer>
           <Image
@@ -37,16 +47,24 @@ export default function Merchant() {
         </Styled.ImageContainer>
       </Styled.Images>
       <Styled.Titles>
-        <Styled.BoldTitle>{fundingName} </Styled.BoldTitle>
-        <Styled.StatusMark status={fundingStatus}>
-          {fundingStatus === 'FAILED' ? '실패' : fundingStatus === 'SUCCESS' ? '성공' : '진행중'}
-        </Styled.StatusMark>
+        <Styled.BoldTitle>
+          {fundingName}
+          <Styled.StatusMark status={fundingStatus}>
+            {fundingStatus === 'FAILED' ? '실패' : fundingStatus === 'SUCCESS' ? '성공' : '진행중'}
+          </Styled.StatusMark>
+        </Styled.BoldTitle>
+        <Styled.Date>
+          {startDate} ~ {finishDate}
+        </Styled.Date>
       </Styled.Titles>
+      <Styled.Detail>{fundDetail}</Styled.Detail>
       <Styled.ProgressContainer>
         <Styled.ProgressTitle>내가 펀딩한 금액</Styled.ProgressTitle>
         <Styled.ProgressAmount>￦ {priceFormatter(fundingAmount ?? 0)}</Styled.ProgressAmount>
         <Styled.Date>{fundingDate} 에 참여했어요</Styled.Date>
       </Styled.ProgressContainer>
+
+      {payment_status === 'cancel' && <Styled.Warning>이미 취소한 펀딩이에요</Styled.Warning>}
 
       {isCancelModal && (
         <CommonModal
@@ -92,7 +110,8 @@ export default function Merchant() {
 const Styled = {
   Titles: styled.header`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: flex-start;
 
     width: 32.7rem;
     padding-left: 0.2rem;
@@ -106,12 +125,15 @@ const Styled = {
     padding-bottom: 1.4rem;
   `,
   BoldTitle: styled.h1`
+    display: flex;
+    gap: 1rem;
+
     font-size: 2rem;
     font-family: 'Roboto';
     font-weight: 900;
     letter-spacing: -0.08rem;
   `,
-  StatusMark: styled.p<{ status: 'PROGRESS' | 'SUCCESS' | 'FAILED' }>`
+  StatusMark: styled.span<{ status: 'PROGRESS' | 'SUCCESS' | 'FAILED' }>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -149,6 +171,20 @@ const Styled = {
     height: 37.5rem;
     border-radius: 1rem;
   `,
+  Detail: styled.div`
+    width: 100%;
+    padding: 3.5rem;
+    white-space: pre-wrap;
+
+    text-align: left;
+    color: #000;
+    font-family: 'Roboto';
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.064rem;
+  `,
   ProgressContainer: styled.article`
     display: flex;
     flex-direction: column;
@@ -156,9 +192,13 @@ const Styled = {
     align-items: flex-start;
 
     width: 31.1rem;
+    border-radius: 1rem;
 
-    text-align: center;
     margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 2.3rem;
+
+    background: #fff4d0;
   `,
   ProgressTitle: styled.h2`
     font-size: 1.4rem;
@@ -184,5 +224,10 @@ const Styled = {
     font-size: 1.4rem;
     font-weight: 400;
     letter-spacing: -0.03rem;
+  `,
+  Warning: styled.p`
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: red;
   `,
 };
