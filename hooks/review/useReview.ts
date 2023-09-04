@@ -5,7 +5,7 @@ import { fetchReview } from '../../api/review';
 export const useReview = (confirmationId: number) => {
   const { isLoading, isError, data } = useQuery([QUERY_KEY.review], () => fetchReview(confirmationId), {
     onSuccess: (data) => {
-      console.log(data);
+      //console.log(data);
     },
   });
 

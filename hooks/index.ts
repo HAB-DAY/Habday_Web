@@ -9,4 +9,5 @@ export const QUERY_KEY = {
   accessToken: 'accessToken',
   signup: 'signup',
   review: 'review',
+  register: 'register',
 };

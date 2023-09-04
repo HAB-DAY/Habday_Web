@@ -49,6 +49,8 @@ export default function Card() {
           <Styled.Input
             id="card-pwd"
             placeholder="앞 2자리"
+            type="password"
+            maxLength={2}
             onChange={(e) => setNewPayForm({ pwd_2digit: e.target.value })}
           />
         </Styled.InputContainer>

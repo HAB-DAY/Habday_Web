@@ -10,7 +10,7 @@ import { signupLogState } from '../../states/atom';
 
 export default function Signup() {
   const router = useRouter();
-  const [isSignup, setIsSignup] = useRecoilState(signupLogState);
+  //const [isSignup, setIsSignup] = useRecoilState(signupLogState);
   const {
     placeholder,
     banknames,
@@ -20,7 +20,7 @@ export default function Signup() {
     form: { accountNumber },
   } = useSignupForm(() => {
     router.push('/detail');
-    setIsSignup(true);
+    //setIsSignup(true);
   });
 
   return (

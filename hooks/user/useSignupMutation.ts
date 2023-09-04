@@ -8,7 +8,7 @@ export const useSignupMutation = () => {
 
   return useMutation(updateUserProfile, {
     onSuccess() {
-      queryClient.invalidateQueries([QUERY_KEY.cancel]);
+      queryClient.invalidateQueries([QUERY_KEY.register, QUERY_KEY.signup]);
     },
     onError({ msg }: SignupResponse) {
       alert(msg);

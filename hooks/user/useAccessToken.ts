@@ -6,7 +6,9 @@ import { QUERY_KEY } from '..';
 import { useEffect } from 'react';
 
 export const useAccessToken = (code: string) => {
-  const { isLoading, isError, data } = useQuery([QUERY_KEY.accessToken, code], () => fetchAccessToken(code));
+  const { isLoading, isError, data } = useQuery([QUERY_KEY.accessToken, code], () => {
+    if (code.length) return fetchAccessToken(code);
+  });
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   useEffect(() => {

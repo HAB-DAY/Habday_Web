@@ -11,6 +11,7 @@ import { useFundDetail } from '../../hooks/fund/useFundDetail';
 import { fundingIdState, signupLogState } from '../../states/atom';
 import { useAccessToken } from '../../hooks/user/useAccessToken';
 import { GetServerSidePropsContext } from 'next';
+import { useIsRegister } from '../../hooks/user/useIsRegister';
 
 interface codeProps {
   code: string;
@@ -21,12 +22,14 @@ export default function Detail({ code }: codeProps) {
   const itemId = useRecoilValue(fundingIdState);
   const { detail } = useFundDetail(itemId);
   const { accessToken, isLoading } = useAccessToken(code);
-  const signupStat = useRecoilValue(signupLogState);
+  // const signupStat = useRecoilValue(signupLogState);
+  const { isRegister } = useIsRegister();
 
   useEffect(() => {
-    if (!signupStat) router.push('/signup');
+    if (code === undefined || isRegister === undefined) return;
+    if (!isRegister) router.push('/signup');
     else if (detail?.isConfirmation) router.push('/review');
-  }, [detail]);
+  }, [code, detail, accessToken, isRegister]);
 
   if (isLoading) return <div>로딩중...</div>;
 
