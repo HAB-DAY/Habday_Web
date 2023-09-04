@@ -13,7 +13,7 @@ export const useAccessToken = (code: string) => {
 
   useEffect(() => {
     data && setAccessToken(data.accessToken);
-  }, [code]);
+  }, [code, data]);
 
   return { accessToken, isLoading, isError };
 };
