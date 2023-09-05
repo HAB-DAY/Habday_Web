@@ -164,7 +164,7 @@ HABDAY는 친구들과 함께하는 선물 펀딩 플랫폼입니다.<br/>
 
 ## 펀딩 상세보기
 
-- BASE_URL/landing/아이템id로 진입하게 되면, Landing 컴포넌트를 렌더링합니다.
+- `/landing/아이템id`로 진입하게 되면, Landing 컴포넌트를 렌더링합니다.
 - `getServersizeProps` 메소드로 params를 받아와, 서버에 해당 id의 펀딩상세정보를 요청합니다.
 
 ```tsx
@@ -239,6 +239,40 @@ export async function getServerSideProps({ params }: ParamProps) {
 }
 ```
 
+- 자주 사용하는 를 `common/Layout`으로 선언해, 공통 컴포넌트화 하였습니다.
+
+```tsx
+interface LayoutProps {
+  children: React.ReactNode;
+  buttons?: string[];
+  link?: string;
+  onClickButton?: () => void;
+  onClickLeftButton?: () => void;
+  isNaver?: boolean;
+}
+
+export default function Layout(props: LayoutProps) {
+  const { children, buttons, link, onClickButton, onClickLeftButton, isNaver } = props;
+  return (
+    <Styled.Root>
+      <Styled.Main>{children}</Styled.Main>
+      <Styled.Footer isButtons={buttons?.length === 2}>
+        {buttons && buttons?.length == 2 && (
+          <Styled.ButtonLeft onClick={onClickLeftButton}>{buttons[1]}</Styled.ButtonLeft>
+        )}
+        {buttons && buttons?.length >= 1 && (
+          <Styled.Button isNaver={isNaver} onClick={onClickButton}>
+            {isNaver && <Image alt="네이버 로고" src={NaverImg} height={42} width={42} />}
+            {buttons[0]}
+          </Styled.Button>
+        )}
+        {link && <Styled.Link>{link}</Styled.Link>}
+      </Styled.Footer>
+    </Styled.Root>
+  );
+}
+```
+
 - 커스텀훅 `useFundDetail`을 선언해 UI와 비즈니스 로직을 분리하였습니다.
 - `useFundDetail`은 `fetchFundDetail` 함수를 호출합니다. axios 라이브러리를 사용해 더욱 효율적인 REST API 통신을 구현합니다.
 
@@ -266,6 +300,115 @@ export const fetchFundDetail = async (itemId: number) => {
   } = await client.get<Response<DetailOutput>>(`/funding/showFundingContent?itemId=${itemId}`);
   return data;
 };
+```
+
+## 로그인
+
+- 펀딩 상세보기 `Detail` 뷰에서는 `getServersideProps`로 query param의 인가코드를 가져옵니다.
+- 인가코드를 사용해 `useAccessToken`을 호출하면, 자체 액세스 토큰을 발급해 recoil atom에 저장합니다.
+
+```tsx
+interface codeProps {
+  code: string;
+}
+
+export default function Detail({ code }: codeProps) {
+  const router = useRouter();
+  const itemId = useRecoilValue(fundingIdState);
+  const { detail } = useFundDetail(itemId);
+  const { accessToken, isLoading } = useAccessToken(code);
+  // const signupStat = useRecoilValue(signupLogState);
+  const { isRegister } = useIsRegister();
+
+  useEffect(() => {
+    if (code === undefined || isRegister === undefined) return;
+    if (!isRegister) router.push('/signup');
+    else if (detail?.isConfirmation) router.push('/review');
+  }, [code, detail, accessToken, isRegister]);
+
+  if (isLoading) return <div>로딩중...</div>;
+
+  return (
+    <Layout buttons={['펀딩에 참여할래요']} onClickButton={() => router.push('/fund')}>
+      <Styled.Titles>
+        <Styled.Title>{detail?.hostName}님은</Styled.Title>
+        <Styled.BoldTitle>{detail?.fundingName}</Styled.BoldTitle>
+        <Styled.Title>를(을) 갖고싶어해요</Styled.Title>
+      </Styled.Titles>
+      <Styled.Images>
+        <Styled.ImageContainer>
+          <Image
+            src={detail?.fundingItemImg ?? AirpodImg}
+            alt="펀딩아이템 이미지"
+            width={222}
+            height={222}
+            placeholder="blur"
+            blurDataURL="asstes/default.svg"
+            priority
+          />
+        </Styled.ImageContainer>
+      </Styled.Images>
+      <Styled.ProgressContainer>
+        <Styled.ProgressTitle>현재까지 모인 금액</Styled.ProgressTitle>
+        <Styled.ProgressAmount>￦ {priceFormatter(detail?.totalPrice ?? 0)}</Styled.ProgressAmount>
+        <Progress totalPrice={detail?.totalPrice ?? 0} goalPrice={detail?.goalPrice ?? 0} />
+      </Styled.ProgressContainer>
+    </Layout>
+  );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return { props: { code: context.query.code ?? '' } };
+}
+```
+
+- `AxiosInterceptor`에서 발급된 accessToken을 header에 넣습니다.
+
+```tsx
+export const BASE_URL = process.env.NEXT_PUBLIC_END;
+
+const client = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+function AxiosInterceptor({ children }: PropsWithChildren) {
+  const router = useRouter();
+  const accessToken = useRecoilValue(accessTokenState);
+
+  const requestIntercept = client.interceptors.request.use((config) => {
+    if (config.headers && !config.headers['accessToken']) {
+      config.headers['accessToken'] = accessToken ? `${accessToken}` : '';
+
+      return config;
+    }
+
+    return config;
+  });
+
+  const responseIntercept = client.interceptors.response.use(
+    (config) => config,
+    async (error) => {
+      const config = error.config;
+      console.log(error);
+      if (error.response.status === 401) {
+        alert('로그인 후 이용해 주세요');
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    return () => {
+      client.interceptors.request.eject(requestIntercept);
+      client.interceptors.response.eject(responseIntercept);
+    };
+  }, [requestIntercept]);
+
+  return <>{children}</>;
+}
+
+export { client, AxiosInterceptor };
 ```
 
 ## 펀딩 참여하기
