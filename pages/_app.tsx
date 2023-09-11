@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <AxiosInterceptor>
           <Head>
-            <title>HAB-DAY</title>
+            <title>HAB-DAY | 친구의 생일선물 펀딩에 참여해보세요!</title>
           </Head>
           <MobileWrapper>
             <div id="modal-root" />
