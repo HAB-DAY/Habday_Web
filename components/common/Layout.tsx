@@ -40,7 +40,10 @@ const Styled = {
     justify-content: space-around;
     align-items: center;
 
-    min-width: 37.5rem;
+    width: 100%;
+    height: 100vh;
+
+    overflow-y: scroll;
 
     background: white;
   `,
@@ -48,7 +51,7 @@ const Styled = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 67.2rem;
+    height: 100%;
   `,
   Footer: styled.footer<{ isButtons: boolean }>`
     display: flex;
