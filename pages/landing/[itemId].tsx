@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Layout from '../../components/common/Layout';
 import { useFundDetail } from '../../hooks/fund/useFundDetail';
-import { useRouter } from 'next/router';
 import { useSetRecoilState } from 'recoil';
 import { fundingIdState } from '../../states/atom';
 import Greeting from '../../components/common/Greeting';
@@ -21,7 +20,6 @@ const STATUS = {
 };
 
 export default function Landing({ itemId }: ItemProps) {
-  const router = useRouter();
   const { detail, isLoading, isError } = useFundDetail(parseInt(itemId));
   const setFundingId = useSetRecoilState(fundingIdState);
 
@@ -42,7 +40,7 @@ export default function Landing({ itemId }: ItemProps) {
 
   if (detail?.isConfirmation) {
     return (
-      <Layout>
+      <Layout isNoHeader>
         <Greeting message="펀딩 인증이 도착했어요!" isPing onClickIcon={onClickLogin} />
       </Layout>
     );
@@ -50,14 +48,14 @@ export default function Landing({ itemId }: ItemProps) {
 
   if (detail?.status === STATUS.SUCCESS) {
     return (
-      <Layout link="참여이력 보러가기">
+      <Layout link="참여이력 보러가기" isNoHeader>
         <Greeting message="펀딩에 성공했어요, 감사합니다!" />
       </Layout>
     );
   }
 
   return (
-    <Layout isNaver buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
+    <Layout isNoHeader isNaver buttons={['네이버로 시작하기']} link="HABDAY가 처음이세요?" onClickButton={onClickLogin}>
       <Greeting message={`${detail?.hostName}님의 펀딩에 참여해보세요!`} />
     </Layout>
   );

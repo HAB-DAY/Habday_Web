@@ -22,7 +22,7 @@ export default function List() {
   return (
     <Layout link="내 선물도 펀딩하고 싶다면?">
       <Styled.Title>참여 중인 펀딩을 확인해보세요</Styled.Title>
-      <Styled.Subtitle>펀딩을 터치해 참여를 취소할 수 있어요</Styled.Subtitle>
+      <Styled.Subtitle>클릭하면 자세한 정보를 볼 수 있어요</Styled.Subtitle>
       {data?.length ? (
         data
           //.filter((item) => item.payment_status !== 'cancel')

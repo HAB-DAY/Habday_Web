@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Layout from '../../../components/common/Layout';
 import styled from 'styled-components';
-import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { clickedFundingState } from '../../../states/atom';
 import { AirpodImg } from '../../../assets';
 import priceFormatter from '../../../util/priceFormatter';
 import CommonModal from '../../../components/common/modal/CommonModal';
 import { useCancelParticipateMutation } from '../../../hooks/participate/useCancelParticipate';
-import { useFundDetail } from '../../../hooks/fund/useFundDetail';
 import { useRouter } from 'next/router';
 
 export default function Merchant() {
@@ -32,20 +30,14 @@ export default function Merchant() {
   const [isCompleteModal, setIsCompleteModal] = useState<boolean>(false);
 
   return (
-    <Layout buttons={payment_status !== 'cancel' ? ['참여 취소하기'] : []} onClickButton={() => setIsCancelModal(true)}>
-      <Styled.Images>
-        <Styled.ImageContainer>
-          <Image
-            src={fundingItemImg ?? AirpodImg}
-            alt="펀딩아이템 이미지"
-            width={375}
-            height={375}
-            placeholder="blur"
-            blurDataURL="asstes/default.svg"
-            priority
-          />
-        </Styled.ImageContainer>
-      </Styled.Images>
+    <Layout
+      isNoHeader
+      buttons={payment_status !== 'cancel' ? ['참여 취소하기'] : []}
+      onClickButton={() => setIsCancelModal(true)}
+    >
+      <Styled.ImageContainer>
+        <img src={fundingItemImg ?? AirpodImg} />
+      </Styled.ImageContainer>
       <Styled.Titles>
         <Styled.BoldTitle>
           {fundingName}
@@ -160,16 +152,18 @@ const Styled = {
     line-height: normal;
     letter-spacing: 0.048rem;
   `,
-  Images: styled.article`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  `,
   ImageContainer: styled.div`
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
     height: 37.5rem;
-    border-radius: 1rem;
+    > img {
+      width: 100%;
+      height: 37.5rem;
+      object-fit: cover;
+    }
   `,
   Detail: styled.div`
     width: 100%;

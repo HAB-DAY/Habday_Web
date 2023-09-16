@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NaverImg } from '../../assets';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,12 +11,16 @@ interface LayoutProps {
   onClickButton?: () => void;
   onClickLeftButton?: () => void;
   isNaver?: boolean;
+  isNoHeader?: boolean;
 }
 
 export default function Layout(props: LayoutProps) {
-  const { children, buttons, link, onClickButton, onClickLeftButton, isNaver } = props;
+  const { children, buttons, link, onClickButton, onClickLeftButton, isNaver, isNoHeader } = props;
+  const router = useRouter();
+
   return (
     <Styled.Root>
+      {!isNoHeader && <Styled.Header onClick={() => router.push('/list')}>참여내역 보러가기 🎁</Styled.Header>}
       <Styled.Main>{children}</Styled.Main>
       <Styled.Footer isButtons={buttons?.length === 2}>
         {buttons && buttons?.length == 2 && (
@@ -44,8 +49,22 @@ const Styled = {
     height: 100vh;
 
     overflow-y: scroll;
+    overflow-x: hidden;
 
     background: white;
+  `,
+  Header: styled.header`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100%;
+    margin-top: 1.4rem;
+    margin-right: 4rem;
+
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-decoration: underline;
   `,
   Main: styled.main`
     display: flex;
