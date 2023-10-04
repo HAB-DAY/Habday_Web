@@ -166,9 +166,13 @@ const Styled = {
     }
   `,
   Detail: styled.div`
-    width: 100%;
-    padding: 3.5rem;
+    display: flex;
+    padding: 3.5rem 0;
     white-space: pre-wrap;
+
+    width: 32.7rem;
+    overflow: hidden;
+    word-break: keep-all; // 문단으로 끊어져서 줄바꿈 됨
 
     text-align: left;
     color: #000;
